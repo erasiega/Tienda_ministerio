@@ -57,3 +57,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Core/Repositorios` (3 nuevos), `src/Tienda.Core/Servicios` (3 nuevos), `tests/Tienda.Pruebas/Falsos` (4 nuevos), `tests/Tienda.Pruebas/Servicios/ServicioCatalogoPruebas.cs` (nuevo).
 - Verificación: `dotnet test`: 36 correctas.
 - Decisión del equipo: aceptado.
+
+## 2026-10-20 11:45 · Etapa 3.5 · Contratos del catálogo
+- Cambio: se crearon los contratos `CategoriaRespuesta`, `ProductoResumenRespuesta`, `ProductoDetalleRespuesta`, `PaginaRespuesta<T>` y `CambiarPrecioSolicitud`.
+- Motivo: etapa 3.5 del plan; C-05 y CA-07 (el detalle no muestra el costo de compra).
+- Archivos: `src/Tienda.Contratos` (5 archivos nuevos).
+- Verificación: `dotnet build`; ningún contrato trae costo de compra ni stock exacto.
+- Decisión del equipo: aceptado.
