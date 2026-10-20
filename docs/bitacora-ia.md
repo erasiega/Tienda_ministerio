@@ -22,3 +22,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `docs/arquitectura.md` (nuevo).
 - Verificación: respondimos con cada opción «¿qué hay que tocar para pasar a SQL Server?» y «¿se pueden probar las reglas sin base de datos?».
 - Decisión del equipo: aceptado; elegimos la opción A.
+
+## 2026-10-20 09:50 · Etapa 2 · Plan por etapas
+- Cambio: se creó `docs/plan.md` con doce etapas para el servidor y cinco para el cliente del proyecto final.
+- Motivo: etapa 2 del método; arquitectura opción A.
+- Archivos: `docs/plan.md` (nuevo).
+- Verificación: cada regla R-01 a R-10 aparece en alguna etapa; cada etapa del núcleo tiene sus pruebas; ninguna etapa pasa de 15 minutos.
+- Decisión del equipo: ajustado; agregamos las etapas de revisión de calidad (3.8) y de seguridad (3.9) antes de los pedidos.
