@@ -64,3 +64,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Contratos` (5 archivos nuevos).
 - Verificación: `dotnet build`; ningún contrato trae costo de compra ni stock exacto.
 - Decisión del equipo: aceptado.
+
+## 2026-10-20 12:10 · Etapa 3.6 · Datos con EF Core y SQLite
+- Cambio: se creó `TiendaDbContext` (también es la unidad de trabajo), la configuración de las tablas con el SKU y el slug únicos, los repositorios de categorías y productos, la elección del motor en `ExtensionesDatos` y la carga de 5 categorías y 32 productos desde `datos-iniciales.json`.
+- Motivo: etapa 3.6 del plan; R-01, C-03 y C-07.
+- Archivos: `src/Tienda.Datos` (13 archivos nuevos).
+- Verificación: `dotnet build` sin errores; la búsqueda usa `LIKE` para no distinguir mayúsculas (CA-04).
+- Decisión del equipo: aceptado.

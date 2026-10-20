@@ -1,0 +1,378 @@
+{
+  "categorias": [
+    {
+      "nombre": "Neveras",
+      "slug": "neveras"
+    },
+    {
+      "nombre": "Lavadoras",
+      "slug": "lavadoras"
+    },
+    {
+      "nombre": "Televisores",
+      "slug": "televisores"
+    },
+    {
+      "nombre": "Cocina",
+      "slug": "cocina"
+    },
+    {
+      "nombre": "Pequeños electrodomésticos",
+      "slug": "pequenos-electrodomesticos"
+    }
+  ],
+  "productos": [
+    {
+      "sku": "NEV-300",
+      "nombre": "Nevera No Frost 300 L",
+      "descripcion": "Nevera de dos puertas con congelador superior, sin escarcha y con luz LED.",
+      "categoria": "neveras",
+      "precio": 2899000,
+      "costo": 2150000,
+      "stock": 5,
+      "imagen": "/imagenes/productos/nev-300.jpg",
+      "activo": true
+    },
+    {
+      "sku": "NEV-250",
+      "nombre": "Nevera 250 L",
+      "descripcion": "Nevera de dos puertas con control de temperatura y bandejas de vidrio.",
+      "categoria": "neveras",
+      "precio": 1799000,
+      "costo": 1290000,
+      "stock": 8,
+      "imagen": "/imagenes/productos/nev-250.jpg",
+      "activo": true
+    },
+    {
+      "sku": "NEV-450",
+      "nombre": "Nevera Side by Side 450 L",
+      "descripcion": "Nevera de puertas lado a lado con dispensador de agua y hielo.",
+      "categoria": "neveras",
+      "precio": 5499000,
+      "costo": 4100000,
+      "stock": 3,
+      "imagen": "/imagenes/productos/nev-450.jpg",
+      "activo": true
+    },
+    {
+      "sku": "NEV-100",
+      "nombre": "Nevera minibar 100 L",
+      "descripcion": "Nevera compacta para habitación u oficina.",
+      "categoria": "neveras",
+      "precio": 899000,
+      "costo": 610000,
+      "stock": 4,
+      "imagen": "/imagenes/productos/nev-100.jpg",
+      "activo": false
+    },
+    {
+      "sku": "LAV-12",
+      "nombre": "Lavadora carga superior 12 kg",
+      "descripcion": "Lavadora automática con 8 programas de lavado.",
+      "categoria": "lavadoras",
+      "precio": 1649000,
+      "costo": 1180000,
+      "stock": 6,
+      "imagen": "/imagenes/productos/lav-12.jpg",
+      "activo": true
+    },
+    {
+      "sku": "LAV-16",
+      "nombre": "Lavadora carga superior 16 kg",
+      "descripcion": "Lavadora automática de alta capacidad con lavado rápido.",
+      "categoria": "lavadoras",
+      "precio": 2099000,
+      "costo": 1520000,
+      "stock": 4,
+      "imagen": "/imagenes/productos/lav-16.jpg",
+      "activo": true
+    },
+    {
+      "sku": "LAV-F10",
+      "nombre": "Lavadora carga frontal 10 kg",
+      "descripcion": "Lavadora de carga frontal con motor inverter y 14 programas.",
+      "categoria": "lavadoras",
+      "precio": 2499000,
+      "costo": 1850000,
+      "stock": 2,
+      "imagen": "/imagenes/productos/lav-f10.jpg",
+      "activo": true
+    },
+    {
+      "sku": "LAV-SEC",
+      "nombre": "Lavadora secadora 14 kg",
+      "descripcion": "Lava y seca en un solo ciclo.",
+      "categoria": "lavadoras",
+      "precio": 3899000,
+      "costo": 2900000,
+      "stock": 1,
+      "imagen": "/imagenes/productos/lav-sec.jpg",
+      "activo": true
+    },
+    {
+      "sku": "SEC-08",
+      "nombre": "Secadora 8 kg",
+      "descripcion": "Secadora a gas con sensor de humedad.",
+      "categoria": "lavadoras",
+      "precio": 1999000,
+      "costo": 1450000,
+      "stock": 0,
+      "imagen": "/imagenes/productos/sec-08.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-32",
+      "nombre": "Televisor 32 pulgadas HD",
+      "descripcion": "Televisor inteligente HD con aplicaciones.",
+      "categoria": "televisores",
+      "precio": 849000,
+      "costo": 590000,
+      "stock": 10,
+      "imagen": "/imagenes/productos/tv-32.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-43",
+      "nombre": "Televisor 43 pulgadas Full HD",
+      "descripcion": "Televisor inteligente Full HD con control por voz.",
+      "categoria": "televisores",
+      "precio": 1299000,
+      "costo": 920000,
+      "stock": 9,
+      "imagen": "/imagenes/productos/tv-43.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-50",
+      "nombre": "Televisor 50 pulgadas 4K",
+      "descripcion": "Televisor inteligente 4K UHD con HDR.",
+      "categoria": "televisores",
+      "precio": 1899000,
+      "costo": 1380000,
+      "stock": 6,
+      "imagen": "/imagenes/productos/tv-50.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-55",
+      "nombre": "Televisor 55 pulgadas 4K",
+      "descripcion": "Televisor inteligente 4K UHD con HDR y Dolby Audio.",
+      "categoria": "televisores",
+      "precio": 2399000,
+      "costo": 1760000,
+      "stock": 5,
+      "imagen": "/imagenes/productos/tv-55.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-65",
+      "nombre": "Televisor 65 pulgadas 4K QLED",
+      "descripcion": "Televisor QLED 4K de 120 Hz.",
+      "categoria": "televisores",
+      "precio": 3999000,
+      "costo": 2950000,
+      "stock": 3,
+      "imagen": "/imagenes/productos/tv-65.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TV-75",
+      "nombre": "Televisor 75 pulgadas 4K",
+      "descripcion": "Televisor inteligente 4K de gran formato.",
+      "categoria": "televisores",
+      "precio": 5999000,
+      "costo": 4400000,
+      "stock": 0,
+      "imagen": "/imagenes/productos/tv-75.jpg",
+      "activo": true
+    },
+    {
+      "sku": "BAR-01",
+      "nombre": "Barra de sonido 2.1",
+      "descripcion": "Barra de sonido con subwoofer inalámbrico y Bluetooth.",
+      "categoria": "televisores",
+      "precio": 699000,
+      "costo": 480000,
+      "stock": 12,
+      "imagen": "/imagenes/productos/bar-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "EST-04",
+      "nombre": "Estufa de 4 puestos a gas",
+      "descripcion": "Estufa de mesa en acero inoxidable con encendido eléctrico.",
+      "categoria": "cocina",
+      "precio": 899000,
+      "costo": 630000,
+      "stock": 6,
+      "imagen": "/imagenes/productos/est-04.jpg",
+      "activo": true
+    },
+    {
+      "sku": "EST-IND",
+      "nombre": "Estufa de inducción 2 zonas",
+      "descripcion": "Estufa de inducción con control táctil.",
+      "categoria": "cocina",
+      "precio": 749000,
+      "costo": 520000,
+      "stock": 5,
+      "imagen": "/imagenes/productos/est-ind.jpg",
+      "activo": true
+    },
+    {
+      "sku": "HOR-60",
+      "nombre": "Horno eléctrico 60 L",
+      "descripcion": "Horno eléctrico con convección y rosticero.",
+      "categoria": "cocina",
+      "precio": 659000,
+      "costo": 450000,
+      "stock": 4,
+      "imagen": "/imagenes/productos/hor-60.jpg",
+      "activo": true
+    },
+    {
+      "sku": "MIC-25",
+      "nombre": "Horno microondas 25 L",
+      "descripcion": "Microondas digital con 10 niveles de potencia.",
+      "categoria": "cocina",
+      "precio": 429000,
+      "costo": 290000,
+      "stock": 15,
+      "imagen": "/imagenes/productos/mic-25.jpg",
+      "activo": true
+    },
+    {
+      "sku": "CAM-60",
+      "nombre": "Campana extractora 60 cm",
+      "descripcion": "Campana de pared con tres velocidades y luz LED.",
+      "categoria": "cocina",
+      "precio": 549000,
+      "costo": 380000,
+      "stock": 3,
+      "imagen": "/imagenes/productos/cam-60.jpg",
+      "activo": true
+    },
+    {
+      "sku": "LPL-12",
+      "nombre": "Lavaplatos 12 puestos",
+      "descripcion": "Lavaplatos de piso con 6 programas.",
+      "categoria": "cocina",
+      "precio": 2299000,
+      "costo": 1680000,
+      "stock": 2,
+      "imagen": "/imagenes/productos/lpl-12.jpg",
+      "activo": true
+    },
+    {
+      "sku": "FRE-01",
+      "nombre": "Freidora de aire 5 L",
+      "descripcion": "Freidora de aire digital con 8 funciones.",
+      "categoria": "cocina",
+      "precio": 459000,
+      "costo": 310000,
+      "stock": 20,
+      "imagen": "/imagenes/productos/fre-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "LIC-001",
+      "nombre": "Licuadora 10 velocidades",
+      "descripcion": "Licuadora con vaso de vidrio de 1,5 L y cuchillas de acero.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 389000,
+      "costo": 260000,
+      "stock": 10,
+      "imagen": "/imagenes/productos/lic-001.jpg",
+      "activo": true
+    },
+    {
+      "sku": "CAF-01",
+      "nombre": "Cafetera de goteo 12 tazas",
+      "descripcion": "Cafetera programable con jarra de vidrio.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 189000,
+      "costo": 120000,
+      "stock": 18,
+      "imagen": "/imagenes/productos/caf-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "SAN-01",
+      "nombre": "Sanduchera",
+      "descripcion": "Sanduchera de placas antiadherentes.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 99000,
+      "costo": 62000,
+      "stock": 25,
+      "imagen": "/imagenes/productos/san-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "PLA-01",
+      "nombre": "Plancha a vapor",
+      "descripcion": "Plancha con suela de cerámica y vapor vertical.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 149000,
+      "costo": 98000,
+      "stock": 14,
+      "imagen": "/imagenes/productos/pla-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "ASP-01",
+      "nombre": "Aspiradora sin bolsa",
+      "descripcion": "Aspiradora ciclónica de 1.800 W con filtro HEPA.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 599000,
+      "costo": 410000,
+      "stock": 6,
+      "imagen": "/imagenes/productos/asp-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "BAT-01",
+      "nombre": "Batidora de pedestal",
+      "descripcion": "Batidora de pedestal con tazón de 4,5 L.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 899000,
+      "costo": 640000,
+      "stock": 4,
+      "imagen": "/imagenes/productos/bat-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "OLL-01",
+      "nombre": "Olla arrocera 1,8 L",
+      "descripcion": "Olla arrocera con función de mantener caliente.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 159000,
+      "costo": 105000,
+      "stock": 11,
+      "imagen": "/imagenes/productos/oll-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "VEN-01",
+      "nombre": "Ventilador de pie 18 pulgadas",
+      "descripcion": "Ventilador de pie con tres velocidades y oscilación.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 219000,
+      "costo": 145000,
+      "stock": 9,
+      "imagen": "/imagenes/productos/ven-01.jpg",
+      "activo": true
+    },
+    {
+      "sku": "TOS-01",
+      "nombre": "Tostadora 2 puestos",
+      "descripcion": "Tostadora con 7 niveles de tostado.",
+      "categoria": "pequenos-electrodomesticos",
+      "precio": 129000,
+      "costo": 85000,
+      "stock": 7,
+      "imagen": "/imagenes/productos/tos-01.jpg",
+      "activo": false
+    }
+  ]
+}
