@@ -29,3 +29,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `docs/plan.md` (nuevo).
 - Verificación: cada regla R-01 a R-10 aparece en alguna etapa; cada etapa del núcleo tiene sus pruebas; ninguna etapa pasa de 15 minutos.
 - Decisión del equipo: ajustado; agregamos las etapas de revisión de calidad (3.8) y de seguridad (3.9) antes de los pedidos.
+
+## 2026-10-20 10:05 · Etapa 3.1 · Solución, proyectos y proyecto de pruebas
+- Cambio: se creó `Tienda.slnx` con `Tienda.Core`, `Tienda.Contratos`, `Tienda.Datos` y `Tienda.Api` en `src/`, y `Tienda.Pruebas` (xUnit) en `tests/`, con las referencias de la arquitectura. La API escucha en `http://localhost:5080`.
+- Motivo: etapa 3.1 del plan; C-02 a C-05.
+- Archivos: `Tienda.slnx`, `src/Directory.Build.props`, los cuatro proyectos de `src/` y `tests/Tienda.Pruebas` (nuevos).
+- Verificación: `dotnet build` sin errores ni advertencias; `dotnet test` corre; `Tienda.Core` no tiene referencias.
+- Decisión del equipo: aceptado.

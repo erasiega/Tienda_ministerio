@@ -1,0 +1,6 @@
+<Project>
+  <!-- C-08: todo lo público lleva comentario XML; si falta, el compilador lo advierte. -->
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
