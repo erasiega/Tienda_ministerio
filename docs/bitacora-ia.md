@@ -36,3 +36,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `Tienda.slnx`, `src/Directory.Build.props`, los cuatro proyectos de `src/` y `tests/Tienda.Pruebas` (nuevos).
 - Verificación: `dotnet build` sin errores ni advertencias; `dotnet test` corre; `Tienda.Core` no tiene referencias.
 - Decisión del equipo: aceptado.
+
+## 2026-10-20 10:30 · Etapa 3.2 · Entidades del núcleo
+- Cambio: se crearon `Categoria`, `Producto`, `Pedido` y `LineaPedido`, con sus validaciones, y las excepciones que la API traducirá a 400, 404 y 409.
+- Motivo: etapa 3.2 del plan; R-02, R-03, R-04, R-07 y R-09.
+- Archivos: `src/Tienda.Core/Entidades` (5 archivos nuevos), `src/Tienda.Core/Excepciones` (3 archivos nuevos).
+- Verificación: `dotnet build` sin errores ni advertencias; el precio y el stock no tienen `set` público; el núcleo no usa EF Core ni ASP.NET.
+- Decisión del equipo: ajustado; pedimos que el código del pedido sea un GUID y no un número consecutivo, por R-09.
