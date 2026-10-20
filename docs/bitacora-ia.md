@@ -15,3 +15,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `.github/copilot-instructions.md` (nuevo).
 - Verificación: cada regla se puede comprobar mirando el código o corriendo un comando.
 - Decisión del equipo: ajustado; agregamos las reglas de CORS, de datos internos y de paquetes vulnerables.
+
+## 2026-10-20 09:30 · Etapa 2 · Arquitectura
+- Cambio: se creó `docs/arquitectura.md` con dos opciones, su cumplimiento de C-02 a C-06, una comparación y la recomendación.
+- Motivo: etapa 2 del método.
+- Archivos: `docs/arquitectura.md` (nuevo).
+- Verificación: respondimos con cada opción «¿qué hay que tocar para pasar a SQL Server?» y «¿se pueden probar las reglas sin base de datos?».
+- Decisión del equipo: aceptado; elegimos la opción A.
