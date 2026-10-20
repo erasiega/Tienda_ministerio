@@ -71,3 +71,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Datos` (13 archivos nuevos).
 - Verificación: `dotnet build` sin errores; la búsqueda usa `LIKE` para no distinguir mayúsculas (CA-04).
 - Decisión del equipo: aceptado.
+
+## 2026-10-20 12:50 · Etapa 3.7 · API del catálogo, cambio de precio y manejo de errores
+- Cambio: se crearon los endpoints de categorías y productos, el de cambio de precio para el personal con la clave en el encabezado `X-Clave-Admin`, el manejador de errores con `ProblemDetails`, CORS para el cliente y las peticiones de prueba. Se actualizó el README.
+- Motivo: etapa 3.7 del plan; CA-01 a CA-08 y CA-18 a CA-20.
+- Archivos: `src/Tienda.Api/Program.cs`, `src/Tienda.Api/appsettings.json` (modificados); `src/Tienda.Api/Endpoints` (2 nuevos), `src/Tienda.Api/Errores/ManejadorDeErrores.cs`, `peticiones/catalogo.http` (nuevos); `README.md` (modificado).
+- Verificación: las 17 peticiones de `peticiones/catalogo.http` dan el código del título; `dotnet test` en verde.
+- Decisión del equipo: aceptado.

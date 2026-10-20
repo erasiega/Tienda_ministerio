@@ -1,0 +1,76 @@
+# Peticiones del catálogo y de administración (etapa 3.7).
+# Arranquen la API en otra terminal con: dotnet run --project src/Tienda.Api
+# Envíen cada una con «Send Request». El título dice el código esperado.
+
+@api = http://localhost:5080
+@clave = HogarTotal-2026*
+
+### CA-01 · Categorías con sus productos activos → 200 (Neveras: 3)
+GET {{api}}/api/categorias
+
+### CA-02 · Productos de la categoría neveras → 200, 3 productos
+GET {{api}}/api/productos?categoria=neveras
+
+### CA-02 · Lo mismo, con la ruta de la categoría → 200, 3 productos
+GET {{api}}/api/categorias/neveras/productos
+
+### CA-03 · Página 2 de tamaño 12 → 200, 12 productos, total 30
+GET {{api}}/api/productos?pagina=2&tamano=12
+
+### CA-04 · Búsqueda sin importar mayúsculas → 200, aparece NEV-300
+GET {{api}}/api/productos?buscar=no%20frost
+
+### CA-05 · Un producto inactivo no aparece → 200, sin elementos
+GET {{api}}/api/productos?buscar=minibar
+
+### CA-06 · Tamaño mayor que 50 → 400
+GET {{api}}/api/productos?tamano=51
+
+### CA-06 · Página 0 → 400
+GET {{api}}/api/productos?pagina=0
+
+### Categoría que no existe → 404
+GET {{api}}/api/productos?categoria=motos
+
+### CA-07 · Detalle del producto 1 → 200
+GET {{api}}/api/productos/1
+
+### CA-08 · Producto que no existe → 404
+GET {{api}}/api/productos/9999
+
+### CA-08 · Producto inactivo (NEV-100) → 404
+GET {{api}}/api/productos/4
+
+### CA-18 · Cambiar el precio con la clave → 200, precio 2799000
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+X-Clave-Admin: {{clave}}
+
+{ "precio": 2799000 }
+
+### CA-18 · Devolver el precio original → 200, precio 2899000
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+X-Clave-Admin: {{clave}}
+
+{ "precio": 2899000 }
+
+### CA-19 · Sin la clave → 401
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+
+{ "precio": 1000 }
+
+### CA-19 · Con una clave incorrecta → 401
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+X-Clave-Admin: otra-clave
+
+{ "precio": 1000 }
+
+### CA-20 · Precio en cero → 400
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+X-Clave-Admin: {{clave}}
+
+{ "precio": 0 }
