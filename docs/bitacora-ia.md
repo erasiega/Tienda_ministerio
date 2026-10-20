@@ -50,3 +50,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `tests/Tienda.Pruebas/Entidades` (3 archivos nuevos).
 - Verificación: `dotnet test`: 23 correctas. Rompimos a propósito R-02 (`<=` por `<`): fallaron las pruebas del precio en cero; restauramos y volvieron a pasar.
 - Decisión del equipo: aceptado.
+
+## 2026-10-20 11:30 · Etapa 3.4 · Servicio del catálogo y pruebas con repositorios falsos
+- Cambio: se crearon las interfaces `IRepositorioCategorias`, `IRepositorioProductos` e `IUnidadDeTrabajo`, el `ServicioCatalogo` (categorías con su cantidad, búsqueda paginada, detalle y cambio de precio), repositorios falsos en memoria y 13 pruebas del servicio.
+- Motivo: etapa 3.4 del plan; R-08 y R-10 · CA-01 a CA-08, CA-18 y CA-20.
+- Archivos: `src/Tienda.Core/Repositorios` (3 nuevos), `src/Tienda.Core/Servicios` (3 nuevos), `tests/Tienda.Pruebas/Falsos` (4 nuevos), `tests/Tienda.Pruebas/Servicios/ServicioCatalogoPruebas.cs` (nuevo).
+- Verificación: `dotnet test`: 36 correctas.
+- Decisión del equipo: aceptado.
