@@ -43,3 +43,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Core/Entidades` (5 archivos nuevos), `src/Tienda.Core/Excepciones` (3 archivos nuevos).
 - Verificación: `dotnet build` sin errores ni advertencias; el precio y el stock no tienen `set` público; el núcleo no usa EF Core ni ASP.NET.
 - Decisión del equipo: ajustado; pedimos que el código del pedido sea un GUID y no un número consecutivo, por R-09.
+
+## 2026-10-20 10:55 · Etapa 3.3 · Pruebas unitarias de las entidades
+- Cambio: se crearon 23 pruebas con xUnit para `Producto`, `Pedido` y `LineaPedido`, cada una con el ID del criterio o de la regla, con casos de error y bordes.
+- Motivo: etapa 3.3 del plan; CA-05, CA-09 a CA-12, CA-15, CA-18, CA-20 y R-09.
+- Archivos: `tests/Tienda.Pruebas/Entidades` (3 archivos nuevos).
+- Verificación: `dotnet test`: 23 correctas. Rompimos a propósito R-02 (`<=` por `<`): fallaron las pruebas del precio en cero; restauramos y volvieron a pasar.
+- Decisión del equipo: aceptado.
