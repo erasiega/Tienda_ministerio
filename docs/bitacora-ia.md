@@ -78,3 +78,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/Program.cs`, `src/Tienda.Api/appsettings.json` (modificados); `src/Tienda.Api/Endpoints` (2 nuevos), `src/Tienda.Api/Errores/ManejadorDeErrores.cs`, `peticiones/catalogo.http` (nuevos); `README.md` (modificado).
 - Verificación: las 17 peticiones de `peticiones/catalogo.http` dan el código del título; `dotnet test` en verde.
 - Decisión del equipo: aceptado.
+
+## 2026-10-21 17:05 · Etapa 3.8 · Revisión de calidad
+- Cambio: se documentaron los hallazgos de calidad de `src/`; no se modificó código.
+- Motivo: primera parte de la etapa 3.8 de `docs/plan.md`; revisión contra `.github/copilot-instructions.md`.
+- Archivos: `docs/revision-calidad.md` (nuevo); `docs/bitacora-ia.md` (actualizado).
+- Verificación: revisión de los archivos fuente de `src/` y `dotnet build Tienda.slnx` (0 errores; 4 advertencias NU1903).
+- Decisión del equipo: aceptado
