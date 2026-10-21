@@ -1,6 +1,7 @@
 using Tienda.Contratos;
 using Tienda.Core.Entidades;
 using Tienda.Core.Servicios;
+using Tienda.Api.Mapeadores;
 
 namespace Tienda.Api.Endpoints;
 
@@ -23,8 +24,7 @@ public static class EndpointsAdministracion
             }
 
             Producto producto = await servicio.CambiarPrecioAsync(id, solicitud.Precio);
-            return Results.Ok(new ProductoDetalleRespuesta(producto.Id, producto.Sku, producto.Nombre, producto.Descripcion,
-                producto.Categoria?.Slug ?? string.Empty, producto.PrecioVenta, producto.Stock > 0, producto.ImagenUrl));
+            return Results.Ok(MapeadorProducto.ADetalle(producto));
         });
 
         return app;

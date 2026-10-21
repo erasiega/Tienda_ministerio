@@ -1,6 +1,7 @@
 using Tienda.Contratos;
 using Tienda.Core.Entidades;
 using Tienda.Core.Servicios;
+using Tienda.Api.Mapeadores;
 
 namespace Tienda.Api.Endpoints;
 
@@ -23,36 +24,23 @@ public static class EndpointsCatalogo
 
         grupo.MapGet("/productos", async (ServicioCatalogo servicio, string? categoria, string? buscar, int? pagina, int? tamano) =>
         {
-            Pagina<Producto> resultado = await servicio.BuscarProductosAsync(categoria, buscar, pagina ?? 1, tamano ?? 12);
-            var elementos = resultado.Elementos
-                .Select(producto => new ProductoResumenRespuesta(producto.Id, producto.Sku, producto.Nombre,
-                    producto.Categoria?.Slug ?? string.Empty, producto.PrecioVenta, producto.Stock > 0, producto.ImagenUrl))
-                .ToList();
-            int totalPaginas = (int)Math.Ceiling(resultado.Total / (double)resultado.Tamano);
-            return Results.Ok(new PaginaRespuesta<ProductoResumenRespuesta>(elementos, resultado.Total, resultado.NumeroPagina, resultado.Tamano, totalPaginas));
+            Pagina<Producto> resultado = await servicio.BuscarProductosAsync(categoria, buscar,
+                pagina ?? ConstantesPaginacion.PaginaPredeterminada,
+                tamano ?? ConstantesPaginacion.TamanoPaginaPredeterminado);
+            return Results.Ok(MapeadorProducto.APaginaResumen(resultado));
         });
 
         grupo.MapGet("/categorias/{slug}/productos", async (ServicioCatalogo servicio, string slug, int? pagina, int? tamano) =>
         {
-            Pagina<Producto> resultado = await servicio.BuscarProductosAsync(slug, null, pagina ?? 1, tamano ?? 12);
-            var elementos = resultado.Elementos
-                .Select(producto => new ProductoResumenRespuesta(producto.Id, producto.Sku, producto.Nombre,
-                    producto.Categoria?.Slug ?? string.Empty, producto.PrecioVenta, producto.Stock > 0, producto.ImagenUrl))
-                .ToList();
-            int totalPaginas = (int)Math.Ceiling(resultado.Total / (double)resultado.Tamano);
-            return Results.Ok(new PaginaRespuesta<ProductoResumenRespuesta>(elementos, resultado.Total, resultado.NumeroPagina, resultado.Tamano, totalPaginas));
+            Pagina<Producto> resultado = await servicio.BuscarProductosAsync(slug, null,
+                pagina ?? ConstantesPaginacion.PaginaPredeterminada,
+                tamano ?? ConstantesPaginacion.TamanoPaginaPredeterminado);
+            return Results.Ok(MapeadorProducto.APaginaResumen(resultado));
         });
 
         grupo.MapGet("/productos/{id:int}", async (ServicioCatalogo servicio, int id) =>
-            Results.Ok(await servicio.ObtenerProductoAsync(id)));
-
-        // grupo.MapGet("/productos/todos", async (TiendaDbContext contexto) =>
-        // {
-        //     return Results.Ok(await contexto.Productos.ToListAsync());
-        // });
+            Results.Ok(MapeadorProducto.ADetalle(await servicio.ObtenerProductoAsync(id))));
 
         return app;
     }
-
-    private static string FormatearPrecio(decimal precio) => precio.ToString("C0");
 }

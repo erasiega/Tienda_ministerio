@@ -85,3 +85,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `docs/revision-calidad.md` (nuevo); `docs/bitacora-ia.md` (actualizado).
 - Verificación: revisión de los archivos fuente de `src/` y `dotnet build Tienda.slnx` (0 errores; 4 advertencias NU1903).
 - Decisión del equipo: aceptado
+
+## 2026-10-21 17:18 · Etapa 3.8 · Corrección de hallazgos de calidad
+- Cambio: se centralizó el mapeo de productos y páginas en la API, se nombraron límites y valores predeterminados de paginación en el núcleo, se eliminó código muerto y se reemplazó SQL escrito a mano por LINQ. También se renombraron variables y se nombró la precisión y escala decimal.
+- Motivo: segunda parte de la etapa 3.8; corrección de los hallazgos de `docs/revision-calidad.md`, sin modificar paquetes, configuración de seguridad ni pruebas.
+- Archivos: `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `src/Tienda.Api/Endpoints/EndpointsCatalogo.cs`, `src/Tienda.Api/Mapeadores/MapeadorProducto.cs` (nuevo), `src/Tienda.Core/Servicios/ConstantesPaginacion.cs` (nuevo), `src/Tienda.Core/Servicios/ServicioCatalogo.cs`, `src/Tienda.Datos/Configuraciones/ConfiguracionProducto.cs`, `src/Tienda.Datos/Repositorios/RepositorioProductos.cs`, `docs/bitacora-ia.md`.
+- Verificación: `dotnet build` (0 errores; 4 advertencias NU1903 conocidas de `Newtonsoft.Json` 12.0.3); `dotnet test` (36 pruebas correctas); `git diff --check`.
+- Decisión del equipo: aceptado

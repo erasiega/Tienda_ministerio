@@ -26,14 +26,16 @@ public class ServicioCatalogo
     /// <returns>Las categorías con su cantidad de productos.</returns>
     public async Task<IReadOnlyList<CategoriaConCantidad>> ListarCategoriasAsync()
     {
-        IReadOnlyList<Categoria> lst = await _categorias.ListarAsync();
-        IReadOnlyDictionary<int, int> tmp = await _productos.ContarActivosPorCategoriaAsync();
-        var r = new List<CategoriaConCantidad>();
-        foreach (Categoria x in lst)
+        IReadOnlyList<Categoria> categorias = await _categorias.ListarAsync();
+        IReadOnlyDictionary<int, int> cantidadesPorCategoria = await _productos.ContarActivosPorCategoriaAsync();
+        var categoriasConCantidad = new List<CategoriaConCantidad>();
+        foreach (Categoria categoria in categorias)
         {
-            r.Add(new CategoriaConCantidad(x, tmp.TryGetValue(x.Id, out int c) ? c : 0));
+            categoriasConCantidad.Add(new CategoriaConCantidad(
+                categoria,
+                cantidadesPorCategoria.TryGetValue(categoria.Id, out int cantidadProductos) ? cantidadProductos : 0));
         }
-        return r;
+        return categoriasConCantidad;
     }
 
     /// <summary>Busca productos activos por categoría y por nombre, de a una página (CA-02 a CA-06).</summary>
@@ -46,14 +48,14 @@ public class ServicioCatalogo
     /// <exception cref="NoEncontradoException">Si la categoría no existe.</exception>
     public async Task<Pagina<Producto>> BuscarProductosAsync(string? slugCategoria, string? texto, int pagina, int tamano)
     {
-        int paginaPorDefecto = 1;
-        if (pagina < 1)
+        if (pagina < ConstantesPaginacion.PaginaMinima)
         {
-            throw new DatosInvalidosException("La página debe ser 1 o mayor.");
+            throw new DatosInvalidosException($"La página debe ser {ConstantesPaginacion.PaginaMinima} o mayor.");
         }
-        if (tamano < 1 || tamano > 50)
+        if (tamano < ConstantesPaginacion.TamanoPaginaMinimo || tamano > ConstantesPaginacion.TamanoPaginaMaximo)
         {
-            throw new DatosInvalidosException("El tamaño de la página debe estar entre 1 y 50.");
+            throw new DatosInvalidosException(
+                $"El tamaño de la página debe estar entre {ConstantesPaginacion.TamanoPaginaMinimo} y {ConstantesPaginacion.TamanoPaginaMaximo}.");
         }
 
         int? categoriaId = null;
@@ -65,7 +67,8 @@ public class ServicioCatalogo
         }
 
         string? textoLimpio = string.IsNullOrWhiteSpace(texto) ? null : texto.Trim();
-        var (productos, total) = await _productos.BuscarActivosAsync(categoriaId, textoLimpio, (pagina - 1) * tamano, tamano);
+        var (productos, total) = await _productos.BuscarActivosAsync(
+            categoriaId, textoLimpio, (pagina - ConstantesPaginacion.PaginaMinima) * tamano, tamano);
         return new Pagina<Producto>(productos, total, pagina, tamano);
     }
 

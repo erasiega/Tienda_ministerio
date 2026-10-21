@@ -21,17 +21,9 @@ public class RepositorioProductos : IRepositorioProductos
     public async Task<(IReadOnlyList<Producto> Productos, int Total)> BuscarActivosAsync(int? categoriaId, string? texto,
         int saltar, int tomar, CancellationToken cancelacion = default)
     {
-        IQueryable<Producto> consulta;
-        if (texto is null)
-        {
-            consulta = _contexto.Productos.Where(producto => producto.Activo);
-        }
-        else
-        {
-            // LIKE de SQLite no distingue mayúsculas, así la búsqueda cumple CA-04.
-            string sql = "SELECT * FROM Productos WHERE Activo = 1 AND Nombre LIKE '%" + texto + "%'";
-            consulta = _contexto.Productos.FromSqlRaw(sql);
-        }
+        // LIKE de SQLite no distingue mayúsculas, así la búsqueda cumple CA-04.
+        IQueryable<Producto> consulta = _contexto.Productos.Where(producto =>
+            producto.Activo && (texto == null || EF.Functions.Like(producto.Nombre, $"%{texto}%")));
 
         if (categoriaId is not null)
         {
