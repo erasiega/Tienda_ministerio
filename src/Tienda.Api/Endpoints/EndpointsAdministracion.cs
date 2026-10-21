@@ -17,7 +17,8 @@ public static class EndpointsAdministracion
             HttpRequest peticion, IConfiguration configuracion, ServicioCatalogo servicio) =>
         {
             string? clave = peticion.Headers["X-Clave-Admin"];
-            if (clave != configuracion["Administracion:Clave"])
+            string? claveConfigurada = configuracion["Administracion:Clave"];
+            if (string.IsNullOrEmpty(claveConfigurada) || clave != claveConfigurada)
             {
                 return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "No autorizado",
                     detail: "Falta la clave de administración o no es correcta (R-10).");

@@ -1,0 +1,28 @@
+# Peticiones para comprobar la seguridad (etapa 3.9).
+# Córranlas antes de corregir (deben mostrar el problema) y después (deben dar lo esperado).
+
+@api = http://localhost:5080
+
+### V-01 · Inyección SQL → esperado: total 0. Con el problema: total 32, con los inactivos
+GET {{api}}/api/productos?buscar=%27%20OR%20Activo%20%3D%200%20OR%20%27
+
+### V-03 · Una comilla en la búsqueda → esperado: 200 sin resultados. Con el problema: 500 con «SqliteException» y la consulta
+GET {{api}}/api/productos?buscar=%27
+
+### V-04 · CORS desde otro sitio → esperado: sin «Access-Control-Allow-Origin». Con el problema: «Access-Control-Allow-Origin: *»
+GET {{api}}/api/categorias
+Origin: https://sitio-malicioso.com
+
+### V-04 · CORS desde el cliente → esperado: «Access-Control-Allow-Origin: http://localhost:5090»
+GET {{api}}/api/categorias
+Origin: http://localhost:5090
+
+### V-06 · Detalle del producto → esperado: sin «costoCompra» ni «stock»
+GET {{api}}/api/productos/1
+
+### V-02 · Clave inválida → esperado: 401
+PUT {{api}}/api/admin/productos/1/precio
+Content-Type: application/json
+X-Clave-Admin: clave-invalida-de-prueba
+
+{ "precio": 2899000 }

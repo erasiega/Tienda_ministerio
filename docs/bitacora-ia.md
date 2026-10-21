@@ -92,3 +92,17 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `src/Tienda.Api/Endpoints/EndpointsCatalogo.cs`, `src/Tienda.Api/Mapeadores/MapeadorProducto.cs` (nuevo), `src/Tienda.Core/Servicios/ConstantesPaginacion.cs` (nuevo), `src/Tienda.Core/Servicios/ServicioCatalogo.cs`, `src/Tienda.Datos/Configuraciones/ConfiguracionProducto.cs`, `src/Tienda.Datos/Repositorios/RepositorioProductos.cs`, `docs/bitacora-ia.md`.
 - Verificación: `dotnet build` (0 errores; 4 advertencias NU1903 conocidas de `Newtonsoft.Json` 12.0.3); `dotnet test` (36 pruebas correctas); `git diff --check`.
 - Decisión del equipo: aceptado
+
+## 2026-10-21 17:39 · Etapa 3.9 · Revisión de seguridad
+- Cambio: se documentaron los resultados para V-01 a V-06; no se modificó código.
+- Motivo: primera parte de la etapa 3.9 de `docs/plan.md`; revisión de `src/`, `peticiones/` y configuración contra `.github/copilot-instructions.md`.
+- Archivos: `docs/revision-seguridad.md` (nuevo); `docs/bitacora-ia.md` (actualizado).
+- Verificación: revisión de las superficies indicadas y `dotnet list Tienda.slnx package --vulnerable` (se reporta `Newtonsoft.Json` 12.0.3, severidad alta).
+- Decisión del equipo:
+
+## 2026-10-21 17:39 · Etapa 3.9 · Corrección de V-02
+- Cambio: se retiró la clave administrativa versionada, la API ahora rechaza la autenticación si no hay secreto configurado y las peticiones usan un valor local no versionado. Se documentó la configuración de User Secrets y variables de entorno.
+- Motivo: seguimiento solicitado por el equipo para corregir el hallazgo de mayor severidad V-02; no se corrigieron los demás hallazgos.
+- Archivos: `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Tienda.Api.csproj`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http`, `peticiones/seguridad.http`, `.gitignore`, `README.md`, `docs/revision-seguridad.md`, `docs/bitacora-ia.md`.
+- Verificación: `dotnet test` (36 pruebas correctas); `dotnet build Tienda.slnx` (0 errores; 4 advertencias NU1903 para `Newtonsoft.Json` 12.0.3); solicitudes locales sin clave y con clave inválida devuelven 401; se comprobó que la clave anterior ya no aparece en los archivos del espacio de trabajo.
+- Decisión del equipo: aceptado; la clave nueva debe configurarse fuera del repositorio.

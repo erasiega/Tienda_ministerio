@@ -3,7 +3,7 @@
 # Envíen cada una con «Send Request». El título dice el código esperado.
 
 @api = http://localhost:5080
-@clave = HogarTotal-2026*
+@clave = {{$dotenv ADMINISTRACION_CLAVE}}
 
 ### CA-01 · Categorías con sus productos activos → 200 (Neveras: 3)
 GET {{api}}/api/categorias
