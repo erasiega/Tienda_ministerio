@@ -134,3 +134,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Contratos` (4 nuevos); `src/Tienda.Datos/Configuraciones` (2 nuevos), `src/Tienda.Datos/Repositorios/RepositorioPedidos.cs` (nuevo), `TiendaDbContext.cs` y `ExtensionesDatos.cs` (modificados); `src/Tienda.Api/Mapeadores/MapeadorPedido.cs` y `src/Tienda.Api/Endpoints/EndpointsPedidos.cs` (nuevos), `Program.cs` (modificado); `peticiones/pedidos.http` (nuevo).
 - Verificación: se borró `tienda.db` para que se cree la tabla de pedidos; las peticiones de `peticiones/pedidos.http` dan el código del título (201 con total 3677000, 200 al consultar por código, 400, 409 y 404 en los errores); `dotnet build` sin advertencias y `dotnet test`: 49 correctas.
 - Decisión del equipo: aceptado.
+
+## 2026-10-23 10:07 · Etapa 3.12 · Cierre del servidor
+- Cambio: se creó `docs/api.md` con cada endpoint, sus parámetros, ejemplos y códigos para quien construya el cliente, y se actualizó el README con la clave de administración, CORS, cómo correr, cómo probar y la organización. En el plan, la etapa 4.1 dice el puerto del cliente.
+- Motivo: etapa 3.12 del plan; C-08.
+- Archivos: `docs/api.md` (nuevo), `README.md` y `docs/plan.md` (modificados).
+- Verificación: cada endpoint de `src/Tienda.Api/Endpoints` está en `docs/api.md`; los ejemplos coinciden con las respuestas de las peticiones; `dotnet build` sin advertencias, `dotnet test`: 49 correctas y `dotnet list package --vulnerable` sin hallazgos.
+- Decisión del equipo: aceptado.
