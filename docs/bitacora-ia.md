@@ -164,3 +164,11 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Web/Program.cs`, `Properties/launchSettings.json`, `wwwroot/appsettings.json`, `Servicios/ClienteTienda.cs`, `Servicios/ErrorApiException.cs`, `Pages/Inicio.razor` (renombrado desde `Pages/Home.razor`), `Pages/Counter.razor` y `Pages/Weather.razor` (eliminados), `wwwroot/sample-data/weather.json` (eliminado), `_Imports.razor`, `Layout/MainLayout.razor`, `Layout/NavMenu.razor`, `Layout/NavMenu.razor.css`, `Pages/NotFound.razor`, `wwwroot/index.html`, `wwwroot/css/app.css`, `README.md` y `docs/bitacora-ia.md`.
 - Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias.
 - Decisión del equipo: pendiente
+
+## 2026-10-23 17:49 · Etapa 4.2 · Productos por categoría
+- Autor: Jaime Peña
+- Cambio: se agregó la consulta paginada de productos, el formato fijo de pesos, el recuadro SKU y la página por categoría con búsqueda, tarjetas y navegación entre páginas.
+- Motivo: etapa 4.2 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
+- Archivos: `src/Tienda.Web/Servicios/ClienteTienda.cs`, `src/Tienda.Web/Servicios/Formato.cs`, `src/Tienda.Web/Componentes/ImagenProducto.razor`, `src/Tienda.Web/Componentes/ImagenProducto.razor.css`, `src/Tienda.Web/Pages/ProductosCategoria.razor`, `src/Tienda.Web/_Imports.razor` y `docs/bitacora-ia.md`.
+- Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias; `git diff --check` sin errores.
+- Decisión del equipo: pendiente

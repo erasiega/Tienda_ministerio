@@ -8,6 +8,9 @@ namespace Tienda.Web.Servicios;
 public sealed class ClienteTienda
 {
     private const string MensajeErrorCategorias = "No fue posible cargar las categorías.";
+    private const string MensajeErrorProductos = "No fue posible cargar los productos.";
+    private const string MensajeSinConexion =
+        "No se pudo conectar con la tienda. Revisa que la API esté corriendo.";
 
     private readonly HttpClient _httpClient;
 
@@ -25,7 +28,7 @@ public sealed class ClienteTienda
             using HttpResponseMessage respuesta = await _httpClient.GetAsync("api/categorias");
             if (!respuesta.IsSuccessStatusCode)
             {
-                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta));
+                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta, MensajeErrorCategorias));
             }
 
             try
@@ -42,14 +45,70 @@ public sealed class ClienteTienda
         }
         catch (HttpRequestException excepcion)
         {
-            throw new ErrorApiException("No se pudo conectar con el servidor de la tienda.", excepcion);
+            throw new ErrorApiException(MensajeSinConexion, excepcion);
         }
     }
 
-    private static async Task<string> ObtenerMensajeErrorAsync(HttpResponseMessage respuesta)
+    /// <summary>Busca productos activos por categoría y nombre en una página.</summary>
+    /// <param name="categoria">Slug de la categoría, o <see langword="null"/> para todas.</param>
+    /// <param name="buscar">Texto del nombre que se desea encontrar, o <see langword="null"/>.</param>
+    /// <param name="pagina">Número de página, desde 1.</param>
+    /// <param name="tamano">Cantidad de productos por página.</param>
+    /// <returns>Los productos y la información de paginación.</returns>
+    /// <exception cref="ErrorApiException">La API no pudo atender o devolver la consulta.</exception>
+    public async Task<PaginaRespuesta<ProductoResumenRespuesta>> ObtenerProductosAsync(
+        string? categoria,
+        string? buscar,
+        int pagina,
+        int tamano)
+    {
+        var parametros = new List<string>();
+        if (!string.IsNullOrWhiteSpace(categoria))
+        {
+            parametros.Add($"categoria={Uri.EscapeDataString(categoria)}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(buscar))
+        {
+            parametros.Add($"buscar={Uri.EscapeDataString(buscar)}");
+        }
+
+        parametros.Add($"pagina={pagina}");
+        parametros.Add($"tamano={tamano}");
+
+        try
+        {
+            using HttpResponseMessage respuesta =
+                await _httpClient.GetAsync($"api/productos?{string.Join("&", parametros)}");
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta, MensajeErrorProductos));
+            }
+
+            try
+            {
+                PaginaRespuesta<ProductoResumenRespuesta>? productos =
+                    await respuesta.Content.ReadFromJsonAsync<PaginaRespuesta<ProductoResumenRespuesta>>();
+                return productos
+                    ?? throw new ErrorApiException("La API devolvió una respuesta vacía para los productos.");
+            }
+            catch (JsonException excepcion)
+            {
+                throw new ErrorApiException("La respuesta de productos no tiene un formato válido.", excepcion);
+            }
+        }
+        catch (HttpRequestException excepcion)
+        {
+            throw new ErrorApiException(MensajeSinConexion, excepcion);
+        }
+    }
+
+    private static async Task<string> ObtenerMensajeErrorAsync(
+        HttpResponseMessage respuesta,
+        string mensajePredeterminado)
     {
         string contenido = await respuesta.Content.ReadAsStringAsync();
-        string mensajeGenerico = $"{MensajeErrorCategorias} (código HTTP {(int)respuesta.StatusCode}).";
+        string mensajeGenerico = $"{mensajePredeterminado} (código HTTP {(int)respuesta.StatusCode}).";
         try
         {
             using JsonDocument documento = JsonDocument.Parse(contenido);

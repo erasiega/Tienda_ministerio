@@ -1,0 +1,151 @@
+@page "/categoria/{Slug}"
+@inject ClienteTienda ClienteTienda
+@using Tienda.Contratos
+
+<PageTitle>@_categoriaNombre | Hogar Total</PageTitle>
+
+<a href="/" class="d-inline-block mb-3">Volver a las categorías</a>
+<h1>@_categoriaNombre</h1>
+
+<form class="mb-4" @onsubmit="BuscarAsync" @onsubmit:preventDefault>
+    <label for="buscar-producto" class="form-label">Buscar por nombre</label>
+    <div class="input-group">
+        <input id="buscar-producto" class="form-control" @bind="_buscar" @bind:event="oninput" />
+        <button class="btn btn-primary" type="submit">Buscar</button>
+    </div>
+</form>
+
+@if (_mensajeError is not null)
+{
+    <div class="alert alert-danger" role="alert">@_mensajeError</div>
+}
+else if (_cargando || _productos is null)
+{
+    <p role="status">Cargando…</p>
+}
+else if (_productos.Elementos.Count == 0)
+{
+    <p>No hay productos que coincidan con la búsqueda.</p>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (ProductoResumenRespuesta producto in _productos.Elementos)
+        {
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a class="card h-100 text-decoration-none text-reset"
+                   href="@($"/producto/{producto.Id}")">
+                    <ImagenProducto Sku="@producto.Sku" />
+                    <div class="card-body">
+                        <h2 class="card-title h5">@producto.Nombre</h2>
+                        <p class="card-text fw-semibold">@Formato.Pesos(producto.Precio)</p>
+                        @if (!producto.Disponible)
+                        {
+                            <span class="badge text-bg-secondary">Agotado</span>
+                        }
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+    @if (_productos.TotalPaginas > 1)
+    {
+        <nav class="d-flex align-items-center justify-content-center gap-3 mt-4" aria-label="Paginación de productos">
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    disabled="@(_productos.Pagina <= 1)"
+                    @onclick="AnteriorAsync">
+                Anterior
+            </button>
+            <span>Página @_productos.Pagina de @_productos.TotalPaginas</span>
+            <button class="btn btn-outline-primary"
+                    type="button"
+                    disabled="@(_productos.Pagina >= _productos.TotalPaginas)"
+                    @onclick="SiguienteAsync">
+                Siguiente
+            </button>
+        </nav>
+    }
+}
+
+@code {
+    private const int TamanoPagina = 6;
+
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private string _categoriaNombre = string.Empty;
+    private string _buscar = string.Empty;
+    private int _pagina = 1;
+    private PaginaRespuesta<ProductoResumenRespuesta>? _productos;
+    private string? _mensajeError;
+    private bool _cargando;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _categoriaNombre = Slug;
+        _buscar = string.Empty;
+        _pagina = 1;
+        await CargarProductosAsync(cargarNombreCategoria: true);
+    }
+
+    private async Task BuscarAsync()
+    {
+        _pagina = 1;
+        await CargarProductosAsync();
+    }
+
+    private async Task AnteriorAsync()
+    {
+        if (_pagina > 1)
+        {
+            _pagina--;
+            await CargarProductosAsync();
+        }
+    }
+
+    private async Task SiguienteAsync()
+    {
+        if (_productos is not null && _pagina < _productos.TotalPaginas)
+        {
+            _pagina++;
+            await CargarProductosAsync();
+        }
+    }
+
+    private async Task CargarProductosAsync(bool cargarNombreCategoria = false)
+    {
+        _cargando = true;
+        _productos = null;
+        _mensajeError = null;
+
+        try
+        {
+            if (cargarNombreCategoria)
+            {
+                Task<IReadOnlyList<CategoriaRespuesta>> categoriasTask = ClienteTienda.ObtenerCategoriasAsync();
+                Task<PaginaRespuesta<ProductoResumenRespuesta>> productosTask =
+                    ClienteTienda.ObtenerProductosAsync(Slug, _buscar, _pagina, TamanoPagina);
+
+                await Task.WhenAll(categoriasTask, productosTask);
+                CategoriaRespuesta? categoria = (await categoriasTask)
+                    .FirstOrDefault(item => string.Equals(item.Slug, Slug, StringComparison.OrdinalIgnoreCase));
+                _categoriaNombre = categoria?.Nombre ?? Slug;
+                _productos = await productosTask;
+            }
+            else
+            {
+                _productos = await ClienteTienda.ObtenerProductosAsync(Slug, _buscar, _pagina, TamanoPagina);
+            }
+        }
+        catch (ErrorApiException excepcion)
+        {
+            _mensajeError = excepcion.Message;
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+}
