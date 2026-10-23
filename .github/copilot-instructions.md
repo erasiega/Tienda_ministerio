@@ -83,6 +83,7 @@ Después de cada cambio que hagas en el proyecto, agrega una entrada al final de
 
 ```
 ## AAAA-MM-DD HH:mm · Etapa X.Y · Título corto
+- Autor: nombre de quien hizo el cambio.
 - Cambio: qué se hizo, en una o dos líneas.
 - Motivo: el hallazgo, la regla o la etapa del plan que lo pide.
 - Archivos: los archivos creados o modificados.
@@ -90,4 +91,5 @@ Después de cada cambio que hagas en el proyecto, agrega una entrada al final de
 - Decisión del equipo: pendiente
 ```
 
-Para la fecha y la hora, ejecuta en la terminal `Get-Date -Format "yyyy-MM-dd HH:mm"`. No borres ni cambies entradas anteriores. Si no hiciste cambios, no agregues entrada.
+Para la fecha y la hora, ejecuta en la terminal `Get-Date -Format "yyyy-MM-dd HH:mm"`.
+Para el autor, ejecuta en la terminal `git config user.name`. No borres ni cambies entradas anteriores. Si no hiciste cambios, no agregues entrada.

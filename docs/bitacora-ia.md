@@ -141,3 +141,11 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `docs/api.md` (nuevo), `README.md` y `docs/plan.md` (modificados).
 - Verificación: cada endpoint de `src/Tienda.Api/Endpoints` está en `docs/api.md`; los ejemplos coinciden con las respuestas de las peticiones; `dotnet build` sin advertencias, `dotnet test`: 49 correctas y `dotnet list package --vulnerable` sin hallazgos.
 - Decisión del equipo: aceptado.
+
+## 2026-10-23 16:55 · Etapa 1 · Autor en la bitácora
+- Autor: JOSE AHUMADA
+- Cambio: se añadió el campo de autor al formato de la bitácora y la instrucción para obtener el nombre desde la configuración de Git.
+- Motivo: solicitud para identificar a quien realizó cada cambio registrado.
+- Archivos: `.github/copilot-instructions.md` y `docs/bitacora-ia.md`.
+- Verificación: se comprobó la hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
+- Decisión del equipo: pendiente
