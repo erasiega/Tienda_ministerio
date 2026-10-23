@@ -26,6 +26,16 @@ dotnet run --project src/Tienda.Api
 
 La API queda en `http://localhost:5080`. La primera vez crea `tienda.db` con 5 categorías y 32 productos de ejemplo. Para empezar con datos limpios, detengan la API y borren `src/Tienda.Api/tienda.db`. CORS solo permite el origen del cliente configurado en `Cors:Origenes` de `src/Tienda.Api/appsettings.json` (hoy `http://localhost:5090`).
 
+## Cómo correr el cliente web
+
+Con la API corriendo en `http://localhost:5080`, en otra terminal ejecuten:
+
+```
+dotnet run --project src/Tienda.Web
+```
+
+El cliente queda en `http://localhost:5090` y consulta la dirección de la API configurada en `src/Tienda.Web/wwwroot/appsettings.json`.
+
 ## Cómo probar
 
 ```
@@ -43,6 +53,7 @@ Con la API corriendo, abran los archivos de la carpeta `peticiones` (`catalogo.h
 | `src/Tienda.Contratos` | Lo que viaja entre el cliente y el servidor. El cliente lo referencia. |
 | `src/Tienda.Datos` | EF Core con SQLite, repositorios y datos iniciales. El motor se elige en `ExtensionesDatos`. |
 | `src/Tienda.Api` | Endpoints, mapeadores a contratos, manejo de errores, CORS y configuración. |
+| `src/Tienda.Web` | Cliente Blazor WebAssembly de Hogar Total. |
 | `tests/Tienda.Pruebas` | Pruebas unitarias con xUnit y repositorios falsos en memoria. |
 | `peticiones` | Peticiones de prueba para REST Client. |
 | `docs` | Enunciado, análisis, arquitectura, plan, revisiones de calidad y de seguridad, API para el cliente y bitácora. |

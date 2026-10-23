@@ -1,0 +1,57 @@
+﻿@page "/"
+@inject ClienteTienda ClienteTienda
+@using Tienda.Contratos
+
+<PageTitle>Inicio | Hogar Total</PageTitle>
+
+<h1>Categorías</h1>
+
+@if (_mensajeError is not null)
+{
+    <div class="alert alert-danger" role="alert">@_mensajeError</div>
+}
+else if (_categorias is null)
+{
+    <p role="status">Cargando categorías...</p>
+}
+else if (_categorias.Count == 0)
+{
+    <p>No hay categorías disponibles.</p>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var categoria in _categorias)
+        {
+            <div class="col-12 col-sm-6 col-lg-4">
+                <a class="card h-100 text-decoration-none text-reset"
+                   href="@($"/categoria/{categoria.Slug}")">
+                    <div class="card-body">
+                        <h2 class="card-title h5">@categoria.Nombre</h2>
+                        <p class="card-text mb-0">
+                            @categoria.CantidadProductos
+                            @(categoria.CantidadProductos == 1 ? "producto" : "productos")
+                        </p>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IReadOnlyList<CategoriaRespuesta>? _categorias;
+    private string? _mensajeError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _categorias = await ClienteTienda.ObtenerCategoriasAsync();
+        }
+        catch (ErrorApiException excepcion)
+        {
+            _mensajeError = excepcion.Message;
+        }
+    }
+}
