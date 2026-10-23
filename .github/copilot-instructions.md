@@ -77,6 +77,17 @@ Somos un equipo que desarrolla en C# con .NET 10 un sistema cliente-servidor: la
 - Las reglas del núcleo se verifican con pruebas; los endpoints, con las peticiones de la carpeta `peticiones` (archivos `.http`), con el resultado esperado de cada una.
 - No cambies los criterios de aceptación, las pruebas ni las peticiones de prueba para que el código pase. Si algo falla, se corrige el código; si crees que la prueba está mal, dilo en el chat y no la cambies.
 
+## Cliente web
+
+- `Tienda.Web` es la tienda que ve quien compra: categorías, productos, carrito y pedido. No tiene funciones del personal de la tienda y la clave de administración nunca va en el cliente.
+- Las páginas van en `Pages`, los componentes que se repiten en `Componentes` y los servicios en `Servicios`.
+- Todas las llamadas a la API están en el servicio `ClienteTienda`; las páginas no usan `HttpClient`. La dirección de la API va en `wwwroot/appsettings.json`, en `Api:Base`.
+- El cliente no decide precios ni totales: muestra los de la API. El total del carrito es un estimado; el que vale es el del pedido que responde el servidor.
+- Mientras carga, la página dice «Cargando…». Si la API responde un error, la página muestra el `detail` del `ProblemDetails`; si no hay conexión, «No se pudo conectar con la tienda. Revisa que la API esté corriendo.». La página nunca se cae.
+- Los precios se muestran en pesos, sin decimales y con punto de miles: `$ 2.899.000`.
+- Se usa Bootstrap, que ya trae la plantilla; nada de librerías de JavaScript.
+- Mientras la API está corriendo, compila solo el cliente: `dotnet build src/Tienda.Web`. El cliente se verifica en el navegador, con la API y el cliente corriendo.
+
 ## Bitácora de cambios con IA
 
 Después de cada cambio que hagas en el proyecto, agrega una entrada al final de `docs/bitacora-ia.md` con este formato:

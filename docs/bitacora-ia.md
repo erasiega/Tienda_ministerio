@@ -149,3 +149,11 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `.github/copilot-instructions.md` y `docs/bitacora-ia.md`.
 - Verificación: se comprobó la hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
 - Decisión del equipo: pendiente
+
+## 2026-10-23 17:00 · Etapa 1 · Reglas del cliente web
+- Autor: JOSE AHUMADA
+- Cambio: se añadieron las reglas del cliente web a las instrucciones de Copilot.
+- Motivo: solicitud para documentar los criterios de implementación y verificación del cliente.
+- Archivos: `.github/copilot-instructions.md` y `docs/bitacora-ia.md`.
+- Verificación: se comprobó la inserción en el punto solicitado; al ser un cambio documental, no requiere compilación ni pruebas.
+- Decisión del equipo: aceptado
