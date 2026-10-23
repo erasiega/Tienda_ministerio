@@ -120,3 +120,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/Program.cs`, `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http` y `README.md` (modificados).
 - Verificación: `dotnet build` sin advertencias; `dotnet test`: 36 correctas; con otro origen la API no responde `Access-Control-Allow-Origin`, con `http://localhost:5090` sí; sin clave y con la clave vieja, 401; con la clave nueva en `peticiones/.env`, CA-18 da 200.
 - Decisión del equipo: aceptado.
+
+## 2026-10-23 10:05 · Etapa 3.10 · Servicio de pedidos y sus pruebas
+- Cambio: se crearon `IRepositorioPedidos`, `DatosPedido`, `DatosLineaPedido` y `ServicioPedidos` (registrar todo o nada con el precio del servidor, y consultar por código), con un repositorio de pedidos falso, un reloj fijo y 13 pruebas.
+- Motivo: etapa 3.10 del plan; R-04 a R-09 · CA-09 a CA-17.
+- Archivos: `src/Tienda.Core/Repositorios/IRepositorioPedidos.cs`, `src/Tienda.Core/Servicios` (3 nuevos), `tests/Tienda.Pruebas/Falsos` (2 nuevos), `tests/Tienda.Pruebas/Servicios/ServicioPedidosPruebas.cs` (nuevo).
+- Verificación: `dotnet build` sin advertencias; `dotnet test`: 49 correctas. En la prueba de CA-12 la línea sin stock va de última; si el servicio bajara el stock mientras valida, esa prueba falla.
+- Decisión del equipo: aceptado.
