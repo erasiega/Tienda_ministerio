@@ -113,3 +113,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/Errores/ManejadorDeErrores.cs`, `src/Tienda.Datos/DatosIniciales/CargadorDatosIniciales.cs`, `src/Tienda.Datos/Tienda.Datos.csproj`, `docs/revision-calidad.md` y `docs/revision-seguridad.md` (modificados).
 - Verificación: `dotnet build` sin advertencias (ya no aparece NU1903); `dotnet test`: 36 correctas; `dotnet list package --vulnerable` no encuentra paquetes vulnerables; al borrar `tienda.db` y arrancar, se cargan las 5 categorías y los 32 productos.
 - Decisión del equipo: aceptado.
+
+## 2026-10-23 10:05 · Etapa 3.9 · Corrección de V-02 y V-04
+- Cambio: CORS solo permite los orígenes de `Cors:Origenes` en `appsettings.json`, por ahora `http://localhost:5090`, el del cliente del proyecto final. La clave de administración se compara en tiempo constante y queda vacía en `appsettings.json`, así que sin secreto configurado responde 401. El README explica que el `.env` va en la carpeta `peticiones`, que es donde REST Client lo busca.
+- Motivo: V-04 de `docs/revision-seguridad.md` y ajuste de V-02; C-07 y R-10.
+- Archivos: `src/Tienda.Api/Program.cs`, `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http` y `README.md` (modificados).
+- Verificación: `dotnet build` sin advertencias; `dotnet test`: 36 correctas; con otro origen la API no responde `Access-Control-Allow-Origin`, con `http://localhost:5090` sí; sin clave y con la clave vieja, 401; con la clave nueva en `peticiones/.env`, CA-18 da 200.
+- Decisión del equipo: aceptado.

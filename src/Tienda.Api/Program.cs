@@ -10,8 +10,9 @@ builder.Services.AddScoped<ServicioCatalogo>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ManejadorDeErrores>();
+string[] origenesDelCliente = builder.Configuration.GetSection("Cors:Origenes").Get<string[]>() ?? [];
 builder.Services.AddCors(opciones => opciones.AddDefaultPolicy(politica =>
-    politica.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+    politica.WithOrigins(origenesDelCliente).AllowAnyHeader().AllowAnyMethod()));
 
 WebApplication app = builder.Build();
 
