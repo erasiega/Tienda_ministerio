@@ -7,6 +7,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AgregarDatos(builder.Configuration["BaseDeDatos:Motor"], builder.Configuration["BaseDeDatos:Conexion"]);
 builder.Services.AddScoped<ServicioCatalogo>();
+builder.Services.AddScoped<ServicioPedidos>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ManejadorDeErrores>();
@@ -24,5 +25,6 @@ await app.Services.CrearBaseDeDatosAsync();
 
 app.MapCatalogo();
 app.MapAdministracion();
+app.MapPedidos();
 
 app.Run();

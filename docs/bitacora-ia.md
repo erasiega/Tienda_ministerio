@@ -127,3 +127,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Core/Repositorios/IRepositorioPedidos.cs`, `src/Tienda.Core/Servicios` (3 nuevos), `tests/Tienda.Pruebas/Falsos` (2 nuevos), `tests/Tienda.Pruebas/Servicios/ServicioPedidosPruebas.cs` (nuevo).
 - Verificación: `dotnet build` sin advertencias; `dotnet test`: 49 correctas. En la prueba de CA-12 la línea sin stock va de última; si el servicio bajara el stock mientras valida, esa prueba falla.
 - Decisión del equipo: aceptado.
+
+## 2026-10-23 10:07 · Etapa 3.11 · Pedidos en contratos, datos y API
+- Cambio: se crearon los contratos `CrearPedidoSolicitud`, `LineaPedidoSolicitud`, `PedidoRespuesta` y `LineaPedidoRespuesta`; las tablas de pedidos y líneas con índice único en el código y el `RepositorioPedidos`; el `MapeadorPedido`; y los endpoints `POST /api/pedidos` (201 con la ruta del pedido) y `GET /api/pedidos/{codigo}`, con sus peticiones de prueba.
+- Motivo: etapa 3.11 del plan; CA-09 a CA-17.
+- Archivos: `src/Tienda.Contratos` (4 nuevos); `src/Tienda.Datos/Configuraciones` (2 nuevos), `src/Tienda.Datos/Repositorios/RepositorioPedidos.cs` (nuevo), `TiendaDbContext.cs` y `ExtensionesDatos.cs` (modificados); `src/Tienda.Api/Mapeadores/MapeadorPedido.cs` y `src/Tienda.Api/Endpoints/EndpointsPedidos.cs` (nuevos), `Program.cs` (modificado); `peticiones/pedidos.http` (nuevo).
+- Verificación: se borró `tienda.db` para que se cree la tabla de pedidos; las peticiones de `peticiones/pedidos.http` dan el código del título (201 con total 3677000, 200 al consultar por código, 400, 409 y 404 en los errores); `dotnet build` sin advertencias y `dotnet test`: 49 correctas.
+- Decisión del equipo: aceptado.

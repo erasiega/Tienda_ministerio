@@ -41,6 +41,7 @@ public static class ExtensionesDatos
         servicios.AddScoped<IUnidadDeTrabajo>(proveedor => proveedor.GetRequiredService<TiendaDbContext>());
         servicios.AddScoped<IRepositorioCategorias, RepositorioCategorias>();
         servicios.AddScoped<IRepositorioProductos, RepositorioProductos>();
+        servicios.AddScoped<IRepositorioPedidos, RepositorioPedidos>();
         return servicios;
     }
 

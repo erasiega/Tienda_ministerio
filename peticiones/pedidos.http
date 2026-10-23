@@ -1,0 +1,144 @@
+# Peticiones de pedidos (etapa 3.11).
+# Antes de la primera vez: detengan la API y borren src/Tienda.Api/tienda.db,
+# porque la base se creó antes de que existiera la tabla de pedidos.
+# Producto 1 = NEV-300 (2.899.000, stock 5) · Producto 24 = LIC-001 (389.000, stock 10) · Producto 4 = NEV-100 (inactivo)
+
+@api = http://localhost:5080
+
+### CA-09 · Pedido de 1 nevera y 2 licuadoras → 201, total 3677000 y un código
+# @name pedido
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [
+    { "productoId": 1, "cantidad": 1 },
+    { "productoId": 24, "cantidad": 2 }
+  ]
+}
+
+### CA-16 · Consultar el pedido anterior con su código → 200
+GET {{api}}/api/pedidos/{{pedido.response.body.codigo}}
+
+### CA-09 · La nevera sigue disponible: quedan 4 (el visitante solo ve «disponible», P-06)
+GET {{api}}/api/productos/1
+
+### CA-10 · Pedido sin líneas → 400
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": []
+}
+
+### CA-10 · Una línea con cantidad 0 → 400
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 1, "cantidad": 0 } ]
+}
+
+### CA-11 · El mismo producto en dos líneas → 400
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 1, "cantidad": 1 }, { "productoId": 1, "cantidad": 1 } ]
+}
+
+### CA-12 · 1 licuadora y 100 neveras (no hay stock) → 409 y no se guarda nada
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 24, "cantidad": 1 }, { "productoId": 1, "cantidad": 100 } ]
+}
+
+### CA-12 · La licuadora sigue disponible (el stock exacto lo comprueba la prueba unitaria de CA-12)
+GET {{api}}/api/productos?buscar=licuadora
+
+### CA-13 · La solicitud trae un precio → 201, pero el precio de la línea es 2899000
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 1, "cantidad": 1, "precioUnitario": 1 } ],
+  "total": 1
+}
+
+### CA-14 · Un producto inactivo → 409
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 4, "cantidad": 1 } ]
+}
+
+### CA-14 · Un producto que no existe → 404
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 9999, "cantidad": 1 } ]
+}
+
+### CA-15 · Correo inválido → 400
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "nombreCliente": "Laura Gómez",
+  "documentoCliente": "52123456",
+  "correoCliente": "laura-sin-arroba",
+  "direccionEntrega": "Calle 45 # 12-30, Bogotá",
+  "lineas": [ { "productoId": 1, "cantidad": 1 } ]
+}
+
+### CA-15 · Sin nombre ni dirección → 400
+POST {{api}}/api/pedidos
+Content-Type: application/json
+
+{
+  "documentoCliente": "52123456",
+  "correoCliente": "laura@correo.com",
+  "lineas": [ { "productoId": 1, "cantidad": 1 } ]
+}
+
+### CA-17 · Un código que no existe → 404
+GET {{api}}/api/pedidos/codigo-que-no-existe
+
+### CA-17 · El número de un pedido en vez del código → 404
+GET {{api}}/api/pedidos/1
