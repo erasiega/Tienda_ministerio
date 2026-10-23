@@ -106,3 +106,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Tienda.Api.csproj`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http`, `peticiones/seguridad.http`, `.gitignore`, `README.md`, `docs/revision-seguridad.md`, `docs/bitacora-ia.md`.
 - Verificación: `dotnet test` (36 pruebas correctas); `dotnet build Tienda.slnx` (0 errores; 4 advertencias NU1903 para `Newtonsoft.Json` 12.0.3); solicitudes locales sin clave y con clave inválida devuelven 401; se comprobó que la clave anterior ya no aparece en los archivos del espacio de trabajo.
 - Decisión del equipo: aceptado; la clave nueva debe configurarse fuera del repositorio.
+
+## 2026-10-23 10:04 · Etapa 3.9 · Corrección de V-03 y V-05
+- Cambio: un error inesperado responde 500 con «Ocurrió un error inesperado.» y el detalle va al registro con `ILogger`; se quitó `Newtonsoft.Json` y los datos iniciales se leen con `System.Text.Json`. Se completó la decisión del equipo en `docs/revision-calidad.md` y `docs/revision-seguridad.md`.
+- Motivo: V-03 y V-05 de `docs/revision-seguridad.md`; C-06.
+- Archivos: `src/Tienda.Api/Errores/ManejadorDeErrores.cs`, `src/Tienda.Datos/DatosIniciales/CargadorDatosIniciales.cs`, `src/Tienda.Datos/Tienda.Datos.csproj`, `docs/revision-calidad.md` y `docs/revision-seguridad.md` (modificados).
+- Verificación: `dotnet build` sin advertencias (ya no aparece NU1903); `dotnet test`: 36 correctas; `dotnet list package --vulnerable` no encuentra paquetes vulnerables; al borrar `tienda.db` y arrancar, se cargan las 5 categorías y los 32 productos.
+- Decisión del equipo: aceptado.

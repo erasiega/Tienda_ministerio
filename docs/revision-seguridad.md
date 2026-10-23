@@ -12,3 +12,5 @@ Primera parte de la etapa 3.9 de `docs/plan.md`. Revisión de `src/`, `peticione
 | V-06 | `src/Tienda.Api/Endpoints/EndpointsCatalogo.cs:41-42`; `src/Tienda.Api/Mapeadores/MapeadorProducto.cs:13-15`; `src/Tienda.Contratos/ProductoDetalleRespuesta.cs:3-12` | Sin hallazgo: el contrato de detalle no incluye costo de compra ni cantidad exacta de stock. | Ejecutar `peticiones/seguridad.http:20-21` y comprobar que la respuesta no contiene costo de compra ni stock numérico. | No se requiere corrección; mantener respuestas basadas en contratos que excluyan datos internos. |
 
 ## Decisión del equipo
+
+Aceptamos los seis puntos. V-01 y V-06 ya quedaron corregidos en la etapa 3.8, al pasar la búsqueda a LINQ y el detalle a `ProductoDetalleRespuesta`. V-02 se corrigió junto con esta revisión. V-03, V-04 y V-05 se corrigen en esta etapa.
