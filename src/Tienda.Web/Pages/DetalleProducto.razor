@@ -1,0 +1,84 @@
+@page "/producto/{Id:int}"
+@inject ClienteTienda ClienteTienda
+@inject CarritoTienda Carrito
+@using Tienda.Contratos
+
+<PageTitle>@(_producto?.Nombre ?? "Producto") | Hogar Total</PageTitle>
+
+<a href="/" class="d-inline-block mb-3">Volver a las categorías</a>
+
+@if (_mensajeError is not null)
+{
+    <div class="alert alert-danger" role="alert">@_mensajeError</div>
+}
+else if (_cargando || _producto is null)
+{
+    <p role="status">Cargando…</p>
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <ImagenProducto Sku="@_producto.Sku" />
+        </div>
+        <div class="col-12 col-md-6">
+            <h1>@_producto.Nombre</h1>
+            <p>@_producto.Descripcion</p>
+            <p class="fs-4 fw-semibold">@Formato.Pesos(_producto.Precio)</p>
+            @if (_producto.Disponible)
+            {
+                <button class="btn btn-primary" type="button" @onclick="AgregarAlCarrito">
+                    Agregar al carrito
+                </button>
+                @if (_agregado)
+                {
+                    <p class="text-success mt-2" role="status">Producto agregado al carrito.</p>
+                }
+            }
+            else
+            {
+                <span class="badge text-bg-secondary">Agotado</span>
+            }
+            <a class="btn btn-link d-block px-0 mt-2" href="/carrito">Ver carrito</a>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ProductoDetalleRespuesta? _producto;
+    private string? _mensajeError;
+    private bool _cargando;
+    private bool _agregado;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+        _agregado = false;
+
+        try
+        {
+            _producto = await ClienteTienda.ObtenerProductoAsync(Id);
+        }
+        catch (ErrorApiException excepcion)
+        {
+            _mensajeError = excepcion.Message;
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private void AgregarAlCarrito()
+    {
+        if (_producto is { Disponible: true })
+        {
+            Carrito.Agregar(_producto);
+            _agregado = true;
+        }
+    }
+}

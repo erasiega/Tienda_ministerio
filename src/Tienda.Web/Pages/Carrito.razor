@@ -1,0 +1,153 @@
+@page "/carrito"
+@inject ClienteTienda ClienteTienda
+@inject CarritoTienda CarritoServicio
+@inject NavigationManager Navegacion
+@using Tienda.Contratos
+@using Tienda.Web.Modelos
+
+<PageTitle>Carrito | Hogar Total</PageTitle>
+
+<h1>Carrito</h1>
+
+@if (CarritoServicio.Lineas.Count == 0)
+{
+    <p>Tu carrito está vacío.</p>
+    <a class="btn btn-primary" href="/">Seguir comprando</a>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Subtotal estimado</th>
+                    <th scope="col"><span class="visually-hidden">Acciones</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LineaCarrito linea in CarritoServicio.Lineas)
+                {
+                    <tr @key="linea.ProductoId">
+                        <td>
+                            <a href="@($"/producto/{linea.ProductoId}")">@linea.Nombre</a>
+                            <small class="d-block text-muted">@linea.Sku</small>
+                        </td>
+                        <td>@Formato.Pesos(linea.Precio)</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        type="button"
+                                        aria-label="@($"Quitar una unidad de {linea.Nombre}")"
+                                        @onclick="() => CambiarCantidad(linea, -1)">
+                                    −
+                                </button>
+                                <span>@linea.Cantidad</span>
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        type="button"
+                                        aria-label="@($"Agregar una unidad de {linea.Nombre}")"
+                                        @onclick="() => CambiarCantidad(linea, 1)">
+                                    +
+                                </button>
+                            </div>
+                        </td>
+                        <td>@Formato.Pesos(linea.Subtotal)</td>
+                        <td>
+                            <button class="btn btn-outline-danger btn-sm"
+                                    type="button"
+                                    @onclick="() => CarritoServicio.Quitar(linea.ProductoId)">
+                                Quitar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-end fs-5 fw-semibold">Total estimado: @Formato.Pesos(CarritoServicio.TotalEstimado)</p>
+
+    <section class="mt-4">
+        <h2>Datos de entrega</h2>
+        <EditForm Model="_datosEntrega" OnValidSubmit="HacerPedidoAsync">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label for="nombre-entrega" class="form-label">Nombre</label>
+                <InputText id="nombre-entrega" class="form-control" @bind-Value="_datosEntrega.Nombre" />
+                <ValidationMessage For="@(() => _datosEntrega.Nombre)" />
+            </div>
+            <div class="mb-3">
+                <label for="documento-entrega" class="form-label">Documento</label>
+                <InputText id="documento-entrega" class="form-control" @bind-Value="_datosEntrega.Documento" />
+                <ValidationMessage For="@(() => _datosEntrega.Documento)" />
+            </div>
+            <div class="mb-3">
+                <label for="correo-entrega" class="form-label">Correo</label>
+                <InputText id="correo-entrega" type="email" class="form-control" @bind-Value="_datosEntrega.Correo" />
+                <ValidationMessage For="@(() => _datosEntrega.Correo)" />
+            </div>
+            <div class="mb-3">
+                <label for="direccion-entrega" class="form-label">Dirección</label>
+                <InputText id="direccion-entrega" class="form-control" @bind-Value="_datosEntrega.Direccion" />
+                <ValidationMessage For="@(() => _datosEntrega.Direccion)" />
+            </div>
+
+            @if (_mensajeError is not null)
+            {
+                <div class="alert alert-danger" role="alert">@_mensajeError</div>
+            }
+
+            <button class="btn btn-primary" type="submit" disabled="@_enviando">
+                @(_enviando ? "Enviando…" : "Hacer el pedido")
+            </button>
+        </EditForm>
+    </section>
+}
+
+@code {
+    private readonly DatosEntrega _datosEntrega = new();
+    private string? _mensajeError;
+    private bool _enviando;
+
+    private void CambiarCantidad(LineaCarrito linea, int diferencia) =>
+        CarritoServicio.CambiarCantidad(linea.ProductoId, linea.Cantidad + diferencia);
+
+    private async Task HacerPedidoAsync()
+    {
+        if (_enviando || CarritoServicio.Lineas.Count == 0)
+        {
+            return;
+        }
+
+        _enviando = true;
+        _mensajeError = null;
+
+        var solicitud = new CrearPedidoSolicitud(
+            _datosEntrega.Nombre,
+            _datosEntrega.Documento,
+            _datosEntrega.Correo,
+            _datosEntrega.Direccion,
+            CarritoServicio.Lineas
+                .Select(linea => new LineaPedidoSolicitud(linea.ProductoId, linea.Cantidad))
+                .ToList());
+
+        try
+        {
+            PedidoRespuesta pedido = await ClienteTienda.CrearPedidoAsync(solicitud);
+            CarritoServicio.Vaciar();
+            Navegacion.NavigateTo($"/pedido/{Uri.EscapeDataString(pedido.Codigo)}");
+        }
+        catch (ErrorApiException excepcion)
+        {
+            _mensajeError = excepcion.Message;
+        }
+        finally
+        {
+            _enviando = false;
+        }
+    }
+}

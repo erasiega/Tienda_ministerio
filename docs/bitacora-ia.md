@@ -164,7 +164,7 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Motivo: etapa 4.1 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
 - Archivos: `src/Tienda.Web/Program.cs`, `Properties/launchSettings.json`, `wwwroot/appsettings.json`, `Servicios/ClienteTienda.cs`, `Servicios/ErrorApiException.cs`, `Pages/Inicio.razor` (renombrado desde `Pages/Home.razor`), `Pages/Counter.razor` y `Pages/Weather.razor` (eliminados), `wwwroot/sample-data/weather.json` (eliminado), `_Imports.razor`, `Layout/MainLayout.razor`, `Layout/NavMenu.razor`, `Layout/NavMenu.razor.css`, `Pages/NotFound.razor`, `wwwroot/index.html`, `wwwroot/css/app.css`, `README.md` y `docs/bitacora-ia.md`.
 - Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias.
-- Decisión del equipo: pendiente
+- Decisión del equipo: aceptado
 
 ## 2026-10-23 17:49 · Etapa 4.2 · Productos por categoría
 - Autor: Jaime Peña
@@ -172,7 +172,7 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Motivo: etapa 4.2 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
 - Archivos: `src/Tienda.Web/Servicios/ClienteTienda.cs`, `src/Tienda.Web/Servicios/Formato.cs`, `src/Tienda.Web/Componentes/ImagenProducto.razor`, `src/Tienda.Web/Componentes/ImagenProducto.razor.css`, `src/Tienda.Web/Pages/ProductosCategoria.razor`, `src/Tienda.Web/_Imports.razor` y `docs/bitacora-ia.md`.
 - Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias; `git diff --check` sin errores.
-- Decisión del equipo: pendiente
+- Decisión del equipo: aceptado
 
 ## 2026-10-26 16:41 · Etapa 1 · Autor en la bitácora
 - Autor: JOSE AHUMADA
@@ -180,4 +180,4 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Motivo: solicitud para incluir el autor en las entradas de la bitácora y obtenerlo desde la configuración de Git.
 - Archivos: `docs/bitacora-ia.md`.
 - Verificación: se comprobó la fecha y hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
-- Decisión del equipo: pendiente
+- Decisión del equipo: aceptado

@@ -1,0 +1,81 @@
+@page "/pedido/{Codigo}"
+@inject ClienteTienda ClienteTienda
+@using System.Globalization
+@using Tienda.Contratos
+
+<PageTitle>Pedido | Hogar Total</PageTitle>
+
+@if (_mensajeError is not null)
+{
+    <div class="alert alert-danger" role="alert">@_mensajeError</div>
+}
+else if (_pedido is null)
+{
+    <p role="status">Cargando…</p>
+}
+else
+{
+    <h1>Pedido</h1>
+    <section class="alert alert-info" aria-label="Código del pedido">
+        <p class="mb-1">Código: <strong>@_pedido.Codigo</strong></p>
+        <p class="mb-0">Guárdalo: es la única forma de consultar tu pedido.</p>
+    </section>
+
+    <dl class="row">
+        <dt class="col-sm-3">Fecha</dt>
+        <dd class="col-sm-9">@_pedido.Fecha.ToString("f", CultureInfo.GetCultureInfo("es-CO"))</dd>
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@_pedido.NombreCliente</dd>
+        <dt class="col-sm-3">Dirección</dt>
+        <dd class="col-sm-9">@_pedido.DireccionEntrega</dd>
+    </dl>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio unitario</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (LineaPedidoRespuesta linea in _pedido.Lineas)
+                {
+                    <tr @key="linea.ProductoId">
+                        <td>@linea.NombreProducto</td>
+                        <td>@linea.Cantidad</td>
+                        <td>@Formato.Pesos(linea.PrecioUnitario)</td>
+                        <td>@Formato.Pesos(linea.Subtotal)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <p class="text-end fs-4 fw-semibold">Total: @Formato.Pesos(_pedido.Total)</p>
+    <a class="btn btn-primary" href="/">Seguir comprando</a>
+}
+
+@code {
+    [Parameter]
+    public string Codigo { get; set; } = string.Empty;
+
+    private PedidoRespuesta? _pedido;
+    private string? _mensajeError;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _pedido = null;
+        _mensajeError = null;
+
+        try
+        {
+            _pedido = await ClienteTienda.ObtenerPedidoAsync(Codigo);
+        }
+        catch (ErrorApiException excepcion)
+        {
+            _mensajeError = excepcion.Message;
+        }
+    }
+}

@@ -12,5 +12,6 @@ string direccionApi = builder.Configuration["Api:Base"]
 
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(direccionApi, UriKind.Absolute) });
 builder.Services.AddScoped<ClienteTienda>();
+builder.Services.AddScoped<CarritoTienda>();
 
 await builder.Build().RunAsync();
