@@ -9,6 +9,9 @@ public sealed class ClienteTienda
 {
     private const string MensajeErrorCategorias = "No fue posible cargar las categorías.";
     private const string MensajeErrorProductos = "No fue posible cargar los productos.";
+    private const string MensajeErrorDetalleProducto = "No fue posible cargar el producto.";
+    private const string MensajeErrorCrearPedido = "No fue posible hacer el pedido.";
+    private const string MensajeErrorObtenerPedido = "No fue posible consultar el pedido.";
     private const string MensajeSinConexion =
         "No se pudo conectar con la tienda. Revisa que la API esté corriendo.";
 
@@ -95,6 +98,97 @@ public sealed class ClienteTienda
             catch (JsonException excepcion)
             {
                 throw new ErrorApiException("La respuesta de productos no tiene un formato válido.", excepcion);
+            }
+        }
+        catch (HttpRequestException excepcion)
+        {
+            throw new ErrorApiException(MensajeSinConexion, excepcion);
+        }
+    }
+
+    /// <summary>Obtiene el detalle de un producto activo.</summary>
+    /// <param name="id">Identificador del producto.</param>
+    /// <returns>El detalle del producto.</returns>
+    /// <exception cref="ErrorApiException">La API no pudo atender o devolver la consulta.</exception>
+    public async Task<ProductoDetalleRespuesta> ObtenerProductoAsync(int id)
+    {
+        try
+        {
+            using HttpResponseMessage respuesta = await _httpClient.GetAsync($"api/productos/{id}");
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta, MensajeErrorDetalleProducto));
+            }
+
+            try
+            {
+                return await respuesta.Content.ReadFromJsonAsync<ProductoDetalleRespuesta>()
+                    ?? throw new ErrorApiException("La API devolvió una respuesta vacía para el producto.");
+            }
+            catch (JsonException excepcion)
+            {
+                throw new ErrorApiException("La respuesta del producto no tiene un formato válido.", excepcion);
+            }
+        }
+        catch (HttpRequestException excepcion)
+        {
+            throw new ErrorApiException(MensajeSinConexion, excepcion);
+        }
+    }
+
+    /// <summary>Registra un pedido usando el precio y el total calculados por el servidor.</summary>
+    /// <param name="solicitud">Datos de entrega y líneas del pedido.</param>
+    /// <returns>El pedido registrado por el servidor.</returns>
+    /// <exception cref="ErrorApiException">La API no pudo atender o devolver el pedido.</exception>
+    public async Task<PedidoRespuesta> CrearPedidoAsync(CrearPedidoSolicitud solicitud)
+    {
+        try
+        {
+            using HttpResponseMessage respuesta = await _httpClient.PostAsJsonAsync("api/pedidos", solicitud);
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta, MensajeErrorCrearPedido));
+            }
+
+            try
+            {
+                return await respuesta.Content.ReadFromJsonAsync<PedidoRespuesta>()
+                    ?? throw new ErrorApiException("La API devolvió una respuesta vacía para el pedido.");
+            }
+            catch (JsonException excepcion)
+            {
+                throw new ErrorApiException("La respuesta del pedido no tiene un formato válido.", excepcion);
+            }
+        }
+        catch (HttpRequestException excepcion)
+        {
+            throw new ErrorApiException(MensajeSinConexion, excepcion);
+        }
+    }
+
+    /// <summary>Consulta un pedido por su código.</summary>
+    /// <param name="codigo">Código recibido al hacer el pedido.</param>
+    /// <returns>El pedido con los valores calculados por el servidor.</returns>
+    /// <exception cref="ErrorApiException">La API no pudo atender o devolver el pedido.</exception>
+    public async Task<PedidoRespuesta> ObtenerPedidoAsync(string codigo)
+    {
+        try
+        {
+            using HttpResponseMessage respuesta =
+                await _httpClient.GetAsync($"api/pedidos/{Uri.EscapeDataString(codigo)}");
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                throw new ErrorApiException(await ObtenerMensajeErrorAsync(respuesta, MensajeErrorObtenerPedido));
+            }
+
+            try
+            {
+                return await respuesta.Content.ReadFromJsonAsync<PedidoRespuesta>()
+                    ?? throw new ErrorApiException("La API devolvió una respuesta vacía para el pedido.");
+            }
+            catch (JsonException excepcion)
+            {
+                throw new ErrorApiException("La respuesta del pedido no tiene un formato válido.", excepcion);
             }
         }
         catch (HttpRequestException excepcion)
