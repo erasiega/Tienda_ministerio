@@ -159,6 +159,7 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Decisión del equipo: aceptado
 
 ## 2026-10-23 17:21 · Etapa 4.1 · Cliente web y categorías
+- Autor: JOSE AHUMADA
 - Cambio: se configuró Blazor en el puerto 5090 y el cliente HTTP hacia la API; la página Inicio muestra categorías como tarjetas, y la plantilla quedó en español sin páginas de ejemplo.
 - Motivo: etapa 4.1 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
 - Archivos: `src/Tienda.Web/Program.cs`, `Properties/launchSettings.json`, `wwwroot/appsettings.json`, `Servicios/ClienteTienda.cs`, `Servicios/ErrorApiException.cs`, `Pages/Inicio.razor` (renombrado desde `Pages/Home.razor`), `Pages/Counter.razor` y `Pages/Weather.razor` (eliminados), `wwwroot/sample-data/weather.json` (eliminado), `_Imports.razor`, `Layout/MainLayout.razor`, `Layout/NavMenu.razor`, `Layout/NavMenu.razor.css`, `Pages/NotFound.razor`, `wwwroot/index.html`, `wwwroot/css/app.css`, `README.md` y `docs/bitacora-ia.md`.
