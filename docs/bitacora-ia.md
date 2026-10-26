@@ -173,3 +173,11 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Web/Servicios/ClienteTienda.cs`, `src/Tienda.Web/Servicios/Formato.cs`, `src/Tienda.Web/Componentes/ImagenProducto.razor`, `src/Tienda.Web/Componentes/ImagenProducto.razor.css`, `src/Tienda.Web/Pages/ProductosCategoria.razor`, `src/Tienda.Web/_Imports.razor` y `docs/bitacora-ia.md`.
 - Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias; `git diff --check` sin errores.
 - Decisión del equipo: pendiente
+
+## 2026-10-26 16:41 · Etapa 1 · Autor en la bitácora
+- Autor: JOSE AHUMADA
+- Cambio: se registró el formato de bitácora solicitado; las dos instrucciones ya estaban presentes en `.github/copilot-instructions.md`.
+- Motivo: solicitud para incluir el autor en las entradas de la bitácora y obtenerlo desde la configuración de Git.
+- Archivos: `docs/bitacora-ia.md`.
+- Verificación: se comprobó la fecha y hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
+- Decisión del equipo: pendiente
