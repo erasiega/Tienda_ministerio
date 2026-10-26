@@ -159,6 +159,7 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Decisión del equipo: aceptado
 
 ## 2026-10-23 17:21 · Etapa 4.1 · Cliente web y categorías
+- Autor: JOSE AHUMADA
 - Cambio: se configuró Blazor en el puerto 5090 y el cliente HTTP hacia la API; la página Inicio muestra categorías como tarjetas, y la plantilla quedó en español sin páginas de ejemplo.
 - Motivo: etapa 4.1 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
 - Archivos: `src/Tienda.Web/Program.cs`, `Properties/launchSettings.json`, `wwwroot/appsettings.json`, `Servicios/ClienteTienda.cs`, `Servicios/ErrorApiException.cs`, `Pages/Inicio.razor` (renombrado desde `Pages/Home.razor`), `Pages/Counter.razor` y `Pages/Weather.razor` (eliminados), `wwwroot/sample-data/weather.json` (eliminado), `_Imports.razor`, `Layout/MainLayout.razor`, `Layout/NavMenu.razor`, `Layout/NavMenu.razor.css`, `Pages/NotFound.razor`, `wwwroot/index.html`, `wwwroot/css/app.css`, `README.md` y `docs/bitacora-ia.md`.
@@ -173,10 +174,10 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias; `git diff --check` sin errores.
 - Decisión del equipo: aceptado
 
-## 2026-10-26 17:20 · Etapa 4.4 · Hacer y consultar pedidos
-- Autor: Jaime Peña
-- Cambio: se completó el flujo de carrito necesario para la etapa, con formulario validado de entrega, envío de líneas sin precios, consulta del pedido por código y detalle con el total del servidor.
-- Motivo: etapa 4.4 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto; la página de carrito de la etapa 4.3 no existía en el workspace.
-- Archivos: `src/Tienda.Web/Servicios/ClienteTienda.cs`, `src/Tienda.Web/Servicios/CarritoTienda.cs`, `src/Tienda.Web/Modelos/DatosEntrega.cs`, `src/Tienda.Web/Modelos/LineaCarrito.cs`, `src/Tienda.Web/Pages/DetalleProducto.razor`, `src/Tienda.Web/Pages/Carrito.razor`, `src/Tienda.Web/Pages/DetallePedido.razor`, `src/Tienda.Web/Program.cs`, `src/Tienda.Web/_Imports.razor`, `src/Tienda.Web/Layout/NavMenu.razor` y `docs/bitacora-ia.md`.
-- Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias.
+## 2026-10-26 16:41 · Etapa 1 · Autor en la bitácora
+- Autor: JOSE AHUMADA
+- Cambio: se registró el formato de bitácora solicitado; las dos instrucciones ya estaban presentes en `.github/copilot-instructions.md`.
+- Motivo: solicitud para incluir el autor en las entradas de la bitácora y obtenerlo desde la configuración de Git.
+- Archivos: `docs/bitacora-ia.md`.
+- Verificación: se comprobó la fecha y hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
 - Decisión del equipo: aceptado
