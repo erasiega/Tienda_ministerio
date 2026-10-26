@@ -23,7 +23,7 @@ Cada etapa deja el proyecto compilando y con sus pruebas pasando, se verifica an
 
 | Etapa | Objetivo |
 |---|---|
-| 4.1 | Proyecto Blazor WebAssembly que referencia `Tienda.Contratos`, y la página de categorías |
+| 4.1 | Proyecto Blazor WebAssembly en `http://localhost:5090` que referencia `Tienda.Contratos`, y la página de categorías |
 | 4.2 | Productos por categoría, con búsqueda y páginas |
 | 4.3 | Detalle del producto y carrito |
 | 4.4 | Hacer el pedido y mostrar su código |

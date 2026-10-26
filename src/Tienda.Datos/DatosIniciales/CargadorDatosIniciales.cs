@@ -1,5 +1,5 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Tienda.Core.Entidades;
 
 namespace Tienda.Datos.DatosIniciales;
@@ -8,6 +8,8 @@ namespace Tienda.Datos.DatosIniciales;
 internal static class CargadorDatosIniciales
 {
     private const string NombreDelArchivo = "datos-iniciales.json";
+
+    private static readonly JsonSerializerOptions OpcionesJson = new() { PropertyNameCaseInsensitive = true };
 
     /// <summary>Carga los datos si la base de datos no tiene categorías.</summary>
     public static async Task CargarSiEstaVaciaAsync(TiendaDbContext contexto)
@@ -18,7 +20,8 @@ internal static class CargadorDatosIniciales
         }
 
         string ruta = Path.Combine(AppContext.BaseDirectory, "DatosIniciales", NombreDelArchivo);
-        DatosInicialesArchivo datos = JsonConvert.DeserializeObject<DatosInicialesArchivo>(await File.ReadAllTextAsync(ruta))
+        await using FileStream archivo = File.OpenRead(ruta);
+        DatosInicialesArchivo datos = await JsonSerializer.DeserializeAsync<DatosInicialesArchivo>(archivo, OpcionesJson)
             ?? throw new InvalidOperationException($"El archivo {NombreDelArchivo} está vacío.");
 
         var categoriasPorSlug = new Dictionary<string, Categoria>();

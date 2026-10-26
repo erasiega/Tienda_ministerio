@@ -16,3 +16,5 @@ Revisión de `src/` contra `.github/copilot-instructions.md`, correspondiente a 
 | Q-10 | `src/Tienda.Api/Errores/ManejadorDeErrores.cs:29` | En errores 500 se envía `Exception.ToString()` en el detalle de la respuesta, lo que puede exponer información técnica. | Los errores inesperados deben devolver un mensaje general; el detalle técnico solo va al registro. | Responder con un detalle general y registrar la excepción en el log del servidor. |
 
 ## Decisión del equipo
+
+Aceptamos Q-01 a Q-10. Q-04 (la advertencia NU1903 por `Newtonsoft.Json`) es de seguridad y se corrige en la etapa 3.9 como V-05. Q-06 a Q-10 coinciden con V-01, V-02, V-03, V-04 y V-06 de la revisión de seguridad.

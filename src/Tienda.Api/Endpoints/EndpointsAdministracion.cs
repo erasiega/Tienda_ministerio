@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Tienda.Contratos;
 using Tienda.Core.Entidades;
 using Tienda.Core.Servicios;
@@ -16,8 +18,7 @@ public static class EndpointsAdministracion
         app.MapPut("/api/admin/productos/{id:int}/precio", async (int id, CambiarPrecioSolicitud solicitud,
             HttpRequest peticion, IConfiguration configuracion, ServicioCatalogo servicio) =>
         {
-            string? clave = peticion.Headers["X-Clave-Admin"];
-            if (clave != configuracion["Administracion:Clave"])
+            if (!ClaveValida(peticion.Headers["X-Clave-Admin"].ToString(), configuracion["Administracion:Clave"]))
             {
                 return Results.Problem(statusCode: StatusCodes.Status401Unauthorized, title: "No autorizado",
                     detail: "Falta la clave de administración o no es correcta (R-10).");
@@ -29,4 +30,12 @@ public static class EndpointsAdministracion
 
         return app;
     }
+
+    /// <summary>
+    /// Compara la clave recibida con la configurada. Si no hay clave configurada, nadie pasa (V-02).
+    /// La comparación tarda lo mismo acierte o no, para no dar pistas por el tiempo de respuesta.
+    /// </summary>
+    private static bool ClaveValida(string recibida, string? configurada) =>
+        !string.IsNullOrEmpty(configurada)
+        && CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(recibida), Encoding.UTF8.GetBytes(configurada));
 }

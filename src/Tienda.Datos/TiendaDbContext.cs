@@ -22,6 +22,9 @@ public class TiendaDbContext : DbContext, IUnidadDeTrabajo
     /// <summary>Productos del catálogo.</summary>
     public DbSet<Producto> Productos => Set<Producto>();
 
+    /// <summary>Pedidos de la tienda web, con sus líneas.</summary>
+    public DbSet<Pedido> Pedidos => Set<Pedido>();
+
     /// <inheritdoc />
     public Task GuardarCambiosAsync(CancellationToken cancelacion = default) => SaveChangesAsync(cancelacion);
 

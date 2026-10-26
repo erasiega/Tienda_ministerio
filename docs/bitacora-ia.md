@@ -92,3 +92,92 @@ Registro de cada cambio hecho con ayuda de la IA: qué cambió, por qué, cómo 
 - Archivos: `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `src/Tienda.Api/Endpoints/EndpointsCatalogo.cs`, `src/Tienda.Api/Mapeadores/MapeadorProducto.cs` (nuevo), `src/Tienda.Core/Servicios/ConstantesPaginacion.cs` (nuevo), `src/Tienda.Core/Servicios/ServicioCatalogo.cs`, `src/Tienda.Datos/Configuraciones/ConfiguracionProducto.cs`, `src/Tienda.Datos/Repositorios/RepositorioProductos.cs`, `docs/bitacora-ia.md`.
 - Verificación: `dotnet build` (0 errores; 4 advertencias NU1903 conocidas de `Newtonsoft.Json` 12.0.3); `dotnet test` (36 pruebas correctas); `git diff --check`.
 - Decisión del equipo: aceptado
+
+## 2026-10-21 17:39 · Etapa 3.9 · Revisión de seguridad
+- Cambio: se documentaron los resultados para V-01 a V-06; no se modificó código.
+- Motivo: primera parte de la etapa 3.9 de `docs/plan.md`; revisión de `src/`, `peticiones/` y configuración contra `.github/copilot-instructions.md`.
+- Archivos: `docs/revision-seguridad.md` (nuevo); `docs/bitacora-ia.md` (actualizado).
+- Verificación: revisión de las superficies indicadas y `dotnet list Tienda.slnx package --vulnerable` (se reporta `Newtonsoft.Json` 12.0.3, severidad alta).
+- Decisión del equipo:
+
+## 2026-10-21 17:39 · Etapa 3.9 · Corrección de V-02
+- Cambio: se retiró la clave administrativa versionada, la API ahora rechaza la autenticación si no hay secreto configurado y las peticiones usan un valor local no versionado. Se documentó la configuración de User Secrets y variables de entorno.
+- Motivo: seguimiento solicitado por el equipo para corregir el hallazgo de mayor severidad V-02; no se corrigieron los demás hallazgos.
+- Archivos: `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Tienda.Api.csproj`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http`, `peticiones/seguridad.http`, `.gitignore`, `README.md`, `docs/revision-seguridad.md`, `docs/bitacora-ia.md`.
+- Verificación: `dotnet test` (36 pruebas correctas); `dotnet build Tienda.slnx` (0 errores; 4 advertencias NU1903 para `Newtonsoft.Json` 12.0.3); solicitudes locales sin clave y con clave inválida devuelven 401; se comprobó que la clave anterior ya no aparece en los archivos del espacio de trabajo.
+- Decisión del equipo: aceptado; la clave nueva debe configurarse fuera del repositorio.
+
+## 2026-10-23 10:04 · Etapa 3.9 · Corrección de V-03 y V-05
+- Cambio: un error inesperado responde 500 con «Ocurrió un error inesperado.» y el detalle va al registro con `ILogger`; se quitó `Newtonsoft.Json` y los datos iniciales se leen con `System.Text.Json`. Se completó la decisión del equipo en `docs/revision-calidad.md` y `docs/revision-seguridad.md`.
+- Motivo: V-03 y V-05 de `docs/revision-seguridad.md`; C-06.
+- Archivos: `src/Tienda.Api/Errores/ManejadorDeErrores.cs`, `src/Tienda.Datos/DatosIniciales/CargadorDatosIniciales.cs`, `src/Tienda.Datos/Tienda.Datos.csproj`, `docs/revision-calidad.md` y `docs/revision-seguridad.md` (modificados).
+- Verificación: `dotnet build` sin advertencias (ya no aparece NU1903); `dotnet test`: 36 correctas; `dotnet list package --vulnerable` no encuentra paquetes vulnerables; al borrar `tienda.db` y arrancar, se cargan las 5 categorías y los 32 productos.
+- Decisión del equipo: aceptado.
+
+## 2026-10-23 10:05 · Etapa 3.9 · Corrección de V-02 y V-04
+- Cambio: CORS solo permite los orígenes de `Cors:Origenes` en `appsettings.json`, por ahora `http://localhost:5090`, el del cliente del proyecto final. La clave de administración se compara en tiempo constante y queda vacía en `appsettings.json`, así que sin secreto configurado responde 401. El README explica que el `.env` va en la carpeta `peticiones`, que es donde REST Client lo busca.
+- Motivo: V-04 de `docs/revision-seguridad.md` y ajuste de V-02; C-07 y R-10.
+- Archivos: `src/Tienda.Api/Program.cs`, `src/Tienda.Api/appsettings.json`, `src/Tienda.Api/Endpoints/EndpointsAdministracion.cs`, `peticiones/catalogo.http` y `README.md` (modificados).
+- Verificación: `dotnet build` sin advertencias; `dotnet test`: 36 correctas; con otro origen la API no responde `Access-Control-Allow-Origin`, con `http://localhost:5090` sí; sin clave y con la clave vieja, 401; con la clave nueva en `peticiones/.env`, CA-18 da 200.
+- Decisión del equipo: aceptado.
+
+## 2026-10-23 10:05 · Etapa 3.10 · Servicio de pedidos y sus pruebas
+- Cambio: se crearon `IRepositorioPedidos`, `DatosPedido`, `DatosLineaPedido` y `ServicioPedidos` (registrar todo o nada con el precio del servidor, y consultar por código), con un repositorio de pedidos falso, un reloj fijo y 13 pruebas.
+- Motivo: etapa 3.10 del plan; R-04 a R-09 · CA-09 a CA-17.
+- Archivos: `src/Tienda.Core/Repositorios/IRepositorioPedidos.cs`, `src/Tienda.Core/Servicios` (3 nuevos), `tests/Tienda.Pruebas/Falsos` (2 nuevos), `tests/Tienda.Pruebas/Servicios/ServicioPedidosPruebas.cs` (nuevo).
+- Verificación: `dotnet build` sin advertencias; `dotnet test`: 49 correctas. En la prueba de CA-12 la línea sin stock va de última; si el servicio bajara el stock mientras valida, esa prueba falla.
+- Decisión del equipo: aceptado.
+
+## 2026-10-23 10:07 · Etapa 3.11 · Pedidos en contratos, datos y API
+- Cambio: se crearon los contratos `CrearPedidoSolicitud`, `LineaPedidoSolicitud`, `PedidoRespuesta` y `LineaPedidoRespuesta`; las tablas de pedidos y líneas con índice único en el código y el `RepositorioPedidos`; el `MapeadorPedido`; y los endpoints `POST /api/pedidos` (201 con la ruta del pedido) y `GET /api/pedidos/{codigo}`, con sus peticiones de prueba.
+- Motivo: etapa 3.11 del plan; CA-09 a CA-17.
+- Archivos: `src/Tienda.Contratos` (4 nuevos); `src/Tienda.Datos/Configuraciones` (2 nuevos), `src/Tienda.Datos/Repositorios/RepositorioPedidos.cs` (nuevo), `TiendaDbContext.cs` y `ExtensionesDatos.cs` (modificados); `src/Tienda.Api/Mapeadores/MapeadorPedido.cs` y `src/Tienda.Api/Endpoints/EndpointsPedidos.cs` (nuevos), `Program.cs` (modificado); `peticiones/pedidos.http` (nuevo).
+- Verificación: se borró `tienda.db` para que se cree la tabla de pedidos; las peticiones de `peticiones/pedidos.http` dan el código del título (201 con total 3677000, 200 al consultar por código, 400, 409 y 404 en los errores); `dotnet build` sin advertencias y `dotnet test`: 49 correctas.
+- Decisión del equipo: aceptado.
+
+## 2026-10-23 10:07 · Etapa 3.12 · Cierre del servidor
+- Cambio: se creó `docs/api.md` con cada endpoint, sus parámetros, ejemplos y códigos para quien construya el cliente, y se actualizó el README con la clave de administración, CORS, cómo correr, cómo probar y la organización. En el plan, la etapa 4.1 dice el puerto del cliente.
+- Motivo: etapa 3.12 del plan; C-08.
+- Archivos: `docs/api.md` (nuevo), `README.md` y `docs/plan.md` (modificados).
+- Verificación: cada endpoint de `src/Tienda.Api/Endpoints` está en `docs/api.md`; los ejemplos coinciden con las respuestas de las peticiones; `dotnet build` sin advertencias, `dotnet test`: 49 correctas y `dotnet list package --vulnerable` sin hallazgos.
+- Decisión del equipo: aceptado.
+
+## 2026-10-23 16:55 · Etapa 1 · Autor en la bitácora
+- Autor: JOSE AHUMADA
+- Cambio: se añadió el campo de autor al formato de la bitácora y la instrucción para obtener el nombre desde la configuración de Git.
+- Motivo: solicitud para identificar a quien realizó cada cambio registrado.
+- Archivos: `.github/copilot-instructions.md` y `docs/bitacora-ia.md`.
+- Verificación: se comprobó la hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
+- Decisión del equipo: pendiente
+
+## 2026-10-23 17:00 · Etapa 1 · Reglas del cliente web
+- Autor: JOSE AHUMADA
+- Cambio: se añadieron las reglas del cliente web a las instrucciones de Copilot.
+- Motivo: solicitud para documentar los criterios de implementación y verificación del cliente.
+- Archivos: `.github/copilot-instructions.md` y `docs/bitacora-ia.md`.
+- Verificación: se comprobó la inserción en el punto solicitado; al ser un cambio documental, no requiere compilación ni pruebas.
+- Decisión del equipo: aceptado
+
+## 2026-10-23 17:21 · Etapa 4.1 · Cliente web y categorías
+- Autor: JOSE AHUMADA
+- Cambio: se configuró Blazor en el puerto 5090 y el cliente HTTP hacia la API; la página Inicio muestra categorías como tarjetas, y la plantilla quedó en español sin páginas de ejemplo.
+- Motivo: etapa 4.1 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
+- Archivos: `src/Tienda.Web/Program.cs`, `Properties/launchSettings.json`, `wwwroot/appsettings.json`, `Servicios/ClienteTienda.cs`, `Servicios/ErrorApiException.cs`, `Pages/Inicio.razor` (renombrado desde `Pages/Home.razor`), `Pages/Counter.razor` y `Pages/Weather.razor` (eliminados), `wwwroot/sample-data/weather.json` (eliminado), `_Imports.razor`, `Layout/MainLayout.razor`, `Layout/NavMenu.razor`, `Layout/NavMenu.razor.css`, `Pages/NotFound.razor`, `wwwroot/index.html`, `wwwroot/css/app.css`, `README.md` y `docs/bitacora-ia.md`.
+- Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias.
+- Decisión del equipo: pendiente
+
+## 2026-10-23 17:49 · Etapa 4.2 · Productos por categoría
+- Autor: Jaime Peña
+- Cambio: se agregó la consulta paginada de productos, el formato fijo de pesos, el recuadro SKU y la página por categoría con búsqueda, tarjetas y navegación entre páginas.
+- Motivo: etapa 4.2 de `docs/plan.md` y sección «Cliente web» de las instrucciones del proyecto.
+- Archivos: `src/Tienda.Web/Servicios/ClienteTienda.cs`, `src/Tienda.Web/Servicios/Formato.cs`, `src/Tienda.Web/Componentes/ImagenProducto.razor`, `src/Tienda.Web/Componentes/ImagenProducto.razor.css`, `src/Tienda.Web/Pages/ProductosCategoria.razor`, `src/Tienda.Web/_Imports.razor` y `docs/bitacora-ia.md`.
+- Verificación: `dotnet build src/Tienda.Web`, compilación correcta con 0 errores y 0 advertencias; `git diff --check` sin errores.
+- Decisión del equipo: pendiente
+
+## 2026-10-26 16:41 · Etapa 1 · Autor en la bitácora
+- Autor: JOSE AHUMADA
+- Cambio: se registró el formato de bitácora solicitado; las dos instrucciones ya estaban presentes en `.github/copilot-instructions.md`.
+- Motivo: solicitud para incluir el autor en las entradas de la bitácora y obtenerlo desde la configuración de Git.
+- Archivos: `docs/bitacora-ia.md`.
+- Verificación: se comprobó la fecha y hora con `Get-Date -Format "yyyy-MM-dd HH:mm"` y el autor con `git config user.name`; las entradas anteriores se conservaron.
+- Decisión del equipo: pendiente

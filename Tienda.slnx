@@ -4,6 +4,7 @@
     <Project Path="src/Tienda.Contratos/Tienda.Contratos.csproj" />
     <Project Path="src/Tienda.Core/Tienda.Core.csproj" />
     <Project Path="src/Tienda.Datos/Tienda.Datos.csproj" />
+    <Project Path="src/Tienda.Web/Tienda.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Tienda.Pruebas/Tienda.Pruebas.csproj" />
